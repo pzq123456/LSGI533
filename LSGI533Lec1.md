@@ -60,5 +60,4 @@ propose a new positioning system --> good
 
 ### Resilient and Seamless PNT Infrastructure
 
-### Resources
-https://ap01.alma.exlibrisgroup.com/leganto/readinglist/lists/60854917200003411
+
