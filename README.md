@@ -1,1 +1,14 @@
-# LSGI533
+# Contents
+- Introduction [Lecture 1](./LSGI533Lec1.md)
+- GPS signal structure and observables (Lecture 2)
+- GPS Errors and Modelling (Lecture 3)
+- Positioning with GNSS (Lecture 4)
+- GBAS and SBAS (Lecture 5)
+- High Precision positioning (Lecture 6)
+- Terrestrial Navigation systems (Lecture 7)
+- Inertial Navigation Systems (Lecture 8) (project presentation)
+- System Integration (Lecture 9) (project presentation)
+- Location Based Services (Lecture 10) (project presentation)
+- Positioning with smartphone (Lecture 11) (project presentation)
+- GNSS Remote Sensing (Lecture 12)
+- Test (Lecture 13)
