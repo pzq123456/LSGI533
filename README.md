@@ -17,6 +17,7 @@
 
 ## Task
 ### Assessments (70%)
+
 #### Report 1 (20%) (Submission date: 18 Oct)
 – GPS Positioning algorithms
     - GPS observation Equations
@@ -24,14 +25,15 @@
     - GPS orbit coordinate computation and satellite clock error algorithms
     - Receiver positioning algorithms with Pseuorange Measurements
 – Follow the algorithms, you report will allow a programmer to write a program to fulfill the tasks in your report.
+
 #### Report 2 (20%) (submission date: 8 Nov)
 – Review of mitigation methods for GNSS multipath errors
     - Phase Test (30%) (Nov 28)
 – Fundamental concepts of GNSS positioning
+
 ### Group Project (30%)
 - Each Group (4-5 students)
-- Topic : Design an integrated navigation system for a specified
-application related to your work or experience
+- Topic : Design an integrated navigation system for a specified application related to your work or experience
 - Report Submission (10 Dec)
 - Report (10-20 pages)
   - Purposes of the application
@@ -39,7 +41,7 @@ application related to your work or experience
   - System Design
   - Analysis on performances of the designed system
   - Discussion and conclusion
-  - Comparison with similar systems
+    - Comparison with similar systems
 
 ## Resources
 https://ap01.alma.exlibrisgroup.com/leganto/readinglist/lists/60854917200003411
