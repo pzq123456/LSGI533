@@ -18,21 +18,21 @@
 ## Task
 ### Assessments (70%)
 
-#### Report 1 (20%) (Submission date: 18 Oct)
-– GPS Positioning algorithms
+1. Report 1 (20%) (Submission date: 18 Oct)
+> - Follow the algorithms, you report will allow a programmer to write a program to fulfill the tasks in your report.
+- GPS Positioning algorithms
     - GPS observation Equations
-– Pseudorange, carrier phase, and Doppler
+- Pseudorange, carrier phase, and Doppler
     - GPS orbit coordinate computation and satellite clock error algorithms
     - Receiver positioning algorithms with Pseuorange Measurements
-– Follow the algorithms, you report will allow a programmer to write a program to fulfill the tasks in your report.
 
-#### Report 2 (20%) (submission date: 8 Nov)
-– Review of mitigation methods for GNSS multipath errors
-    - Phase Test (30%) (Nov 28)
-– Fundamental concepts of GNSS positioning
+2. Report 2 (20%) (submission date: 8 Nov)
+- Review of mitigation methods for GNSS multipath errors
 
-### Group Project (30%)
-- Each Group (4-5 students)
+2. Phase Test (30%) (Nov 28)
+- Fundamental concepts of GNSS positioning
+
+3. Group Project (30%) (4-5 students)
 - Topic : Design an integrated navigation system for a specified application related to your work or experience
 - Report Submission (10 Dec)
 - Report (10-20 pages)
