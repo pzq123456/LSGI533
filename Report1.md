@@ -55,17 +55,46 @@ Consistent observation and systematic adjustment of the GPS satellites can corre
 
 ### 2.2 Steps for GPS Satellite Oribit Position Computation
 
+For observation time $t'$, the satellite's position can be calculated as follows:
+
 1. Calculate the mean motion of the satellite $n$:
-$$ n = \sqrt{\frac{μ}{a^3}} + \Delta n \tag{2.1} $$
+    $$ n = \sqrt{\frac{μ}{a^3}} + \Delta n \tag{2.1} $$
 
-where $μ = 3.986005 × 10^{14} m^3/s^2$ [$^{[2]}$](http://www.braeunig.us/space/constant.htm) is the Earth's gravitational constant, and $a$ is the semimajor axis of the orbital ellipse. The $\Delta n$ term is the mean motion difference transmitted by the satellite.
+    where $μ = 3.986005 × 10^{14} m^3/s^2$ [$^{[2]}$](http://www.braeunig.us/space/constant.htm) is the Earth's gravitational constant, and $a$ is the semimajor axis of the orbital ellipse. The $\Delta n$ term is the mean motion difference transmitted by the satellite.
 
+2. Calculate the $t_k$ time elapsed since the reference epoch $t_{oe}$:
+    $$ \Delta t = a_0 + a_1(t' - t_c) + a_2(t' - t_c)^2 \tag{2.2} $$
+    $$ t_k = t - t_{oe} \tag{2.3} $$
+    We call $t_k$ the time elapsed since the reference epoch $t_{oe}$.
+3. Calculate the mean anomaly $M_k$:
+    $$ M_k = M_0 + n t_k \tag{2.4} $$
+4. Solve the Kepler equation for the eccentric anomaly $E_k$:
+    $$ E_k = M_k + e \sin E_k \tag{2.5} $$
+    We use the Newton-Raphson method to solve this equation. 
+5. Calculate the true anomaly $v_k$:
+    $$ v_k = \arctan \left( \frac{\sqrt{1 - e^2} \sin E_k}{\cos E_k - e} \right) \tag{2.6} $$
+6. Calculate the argument of latitude $\Phi_k$:
+    $$ \Phi_k = v_k + ω_0 \tag{2.7} $$
+7. Calculate the correction terms $\delta_u, \delta_r, \delta_i$:
+    $$ \delta_u = C_{us} \sin(2\Phi_k) + C_{uc} \cos(2\Phi_k) \tag{2.8} $$
+    $$ \delta_r = C_{rs} \sin(2\Phi_k) + C_{rc} \cos(2\Phi_k) \tag{2.9} $$
+    $$ \delta_i = C_{is} \sin(2\Phi_k) + C_{ic} \cos(2\Phi_k) \tag{2.10} $$
+    we call these the argument of latitude correction, the geocentric distance correction, and the inclination correction, respectively.
+8. Calculate the corrected argument $u_k, r_k, i_k$:
+    $$ u_k = \Phi_k + \delta_u \tag{2.11} $$
+    $$ r_k = a(1 - e \cos E_k) + \delta_r \tag{2.12} $$
+    $$ i_k = i_0 + \dot{I} t_k + \delta_i \tag{2.13} $$
+9. Calculate $\Omega_k$, the corrected longitude of the ascending node:
+    $$ \Omega_k = Ω_0 + (\dot{\Omega} - ω_e) t_k - ω_e t_{oe} \tag{2.14} $$
+    where $ω_e = 7.2921151467 × 10^{-5} rad/s$ is the Earth's angular velocity.
+10. Calculate the satellite's position in the ECSF coordinate system in Linear Algebra form:
+    $$ r = \begin{bmatrix} X_k \\ Y_k \\ Z_k \end{bmatrix} = \begin{bmatrix} x_k \cos \Omega_k - y_k \cos i_k \sin \Omega_k \\ x_k \sin \Omega_k + y_k \cos i_k \cos \Omega_k \\ y_k \sin i_k \end{bmatrix} \tag{2.15} $$
 
+Now, we have the satellite's position in the ECSF coordinate system from the Broadcast Ephemerides.
 
 ## 3. Satellite clock error algorithms
 
 ## 4. Receiver positioning algorithms with Pseuorange Measurements
-
 
 ## References
 1. GPS: Theory, Algorithms and Applications, by Guochang Xu. Springer, 2007. doi: https://doi.org/10.1007/978-3-662-50367-6
