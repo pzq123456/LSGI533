@@ -1,4 +1,7 @@
 # Report 1 (20%) : 
+> - PanZhiQing 24037665g
+
+
 > Submission date: 18 Oct
 
 - GPS Positioning algorithms
@@ -11,7 +14,30 @@
 
 ## Contents
 
-## 1. GPS Positioning algorithms
+## 1. GPS observation Equations
+
+When we use radio navigation positioning, we can imagine that there are three known radio signal transmitters on the ground. The receiver can measure the distance from the receiver to the three transmitters($d_1, d_2, d_3$) at a certain time. Three positioning spheres can be drawn with the three transmitters as the centers and $d_1, d_2, d_3$ as the radii. 
+
+![](./imgs/p1.png)
+Figure 1.1. Radio navigation positioning principle 3 known points
+
+Now, the satellite navigation positioning system obeys the same principle. We can concentrate the satellite's position by using three or more known points on the ground (control stations). Conversely, we can concentrate the position of an unknown point on the ground (user receiver) by using the known spatial positions of three or more satellites. By the way, the information about the satellite's position is transmitted to the user receiver by the satellite's broadcast ephemerides, and we will discuss this in the next section.
+
+At a certain time $t_i$, we can measure the distance from the receiver($P$) to three satellites($S_1, S_2, S_3$) as $\rho_1, \rho_2, \rho_3$. The satellite's broadcast ephemerides give us the three satellites' positions in the ECSF coordinate system ($X^j, Y^j, Z^j \quad j = 1, 2, 3$). The receiver's position is $X, Y, Z$. GPS observation Equations can be written as:
+
+$$ \begin{align*}
+\rho_1^2 &= (X - X^1)^2 + (Y - Y^1)^2 + (Z - Z^1)^2 \tag{1.1} \\
+\rho_2^2 &= (X - X^2)^2 + (Y - Y^2)^2 + (Z - Z^2)^2 \tag{1.2} \\
+\rho_3^2 &= (X - X^3)^2 + (Y - Y^3)^2 + (Z - Z^3)^2 \tag{1.3} \\
+\end{align*} $$
+
+Solve this equation to get the receiver's position $X, Y, Z$. But the above equations do not consider the satellite clock error, the receiver clock error, and the ionospheric and tropospheric delays. If we consider the clock error($\delta t_k$)as a kind of unknown parameter, we need at least four satellites to solve the receiver's position.
+
+$$
+[(X^j_s - X)^2 + (Y^j_s - Y)^2 + (Z^j_s - Z)^2]^{\frac{1}{2}} - c \delta t_k = \rho'^j + \delta \rho_1^j + \delta \rho_2^j - c\delta t^j \quad j = 1, 2, 3, 4... \tag{1.4}
+$$
+
+where $X^j_s, Y^j_s, Z^j_s$ are the satellite's position in the ECSF coordinate system, $c$ is the speed of light, $\delta \rho_1^j, \delta \rho_2^j$ are the ionospheric and tropospheric delays, and $\delta t_k$ is the clock error. $\rho'^j$ is the pseudorange measurement, and we will discuss this in the next section 4.
 
 ## 2. GPS orbit coordinate computation
 
@@ -58,13 +84,13 @@ Consistent observation and systematic adjustment of the GPS satellites can corre
 For observation time $t'$, the satellite's position can be calculated as follows:
 
 1. Calculate the mean motion of the satellite $n$:
-    $$ n = \sqrt{\frac{μ}{a^3}} + \Delta n \tag{2.1} $$
+    $$ n = \sqrt{\frac μ {a^3} } + \Delta n \tag{2.1} $$
 
     where $μ = 3.986005 × 10^{14} m^3/s^2$ [$^{[2]}$](http://www.braeunig.us/space/constant.htm) is the Earth's gravitational constant, and $a$ is the semimajor axis of the orbital ellipse. The $\Delta n$ term is the mean motion difference transmitted by the satellite.
 
 2. Calculate the $t_k$ time elapsed since the reference epoch $t_{oe}$:
     $$ \Delta t = a_0 + a_1(t' - t_c) + a_2(t' - t_c)^2 \tag{2.2} $$
-    $$ t_k = t - t_{oe} \tag{2.3} $$
+    $$ t_k = t' - \Delta t - t_{oe} \tag{2.3} $$
     We call $t_k$ the time elapsed since the reference epoch $t_{oe}$.
 3. Calculate the mean anomaly $M_k$:
     $$ M_k = M_0 + n t_k \tag{2.4} $$
@@ -93,8 +119,24 @@ For observation time $t'$, the satellite's position can be calculated as follows
 Now, we have the satellite's position in the ECSF coordinate system from the Broadcast Ephemerides.
 
 ## 3. Satellite clock error algorithms
+As we mationed in the 2.1, $a_0, a_1, a_2$ are polynomial coefficients of the satellite clock error. More specifically, $a_0$ is the clock bias, $a_1$ is the clock drift, and $a_2$ is the acceleration of the related clock. So the satellite clock error can be calculated as follows:
+
+$$ \delta t_k = a_0 + a_1(t' - t_c) + a_2(t' - t_c)^2 \tag{3.1} $$
+
+where $t'$ is the observation time, $t_c$ is the reference epoch of the satellite clock.
+
+The equation (3.1) only works for stable satellite clocks(small drift, small acceleration and stable bias). In the case of SA (selective availability), the clock bias must be modelled for every measuring epoch. 
+$$ \delta t = a_{0i}, t = t_i \tag{3.2} $$
+
+The essence of high-precision GPS positioning is high-precision time measurement, because every tiny error in time measurement can lead to a large error in distance measurement when multiplied by the speed of light. The satellite clock error can be divided into three parts:
+
+1. When factored with the speed of light, c: This kind of clock error can lead to a distance error of $c \delta t_k$.
+2. When factored with the speed of satellites: No implicit like the other two, but it can lead to a distance error of $v_s \delta t_k$.
+3. When factored with the working frequency: This kind of clock error can lead to a phase error of $c \delta t_k / \lambda$.
+
 
 ## 4. Receiver positioning algorithms with Pseuorange Measurements
+
 
 ## References
 1. GPS: Theory, Algorithms and Applications, by Guochang Xu. Springer, 2007. doi: https://doi.org/10.1007/978-3-662-50367-6
