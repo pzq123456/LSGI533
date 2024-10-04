@@ -1,7 +1,6 @@
 # Report 1 (20%) : 
 > - PanZhiQing 24037665g
 
-
 > Submission date: 18 Oct
 
 - GPS Positioning algorithms
@@ -14,11 +13,31 @@
 
 ## Contents
 
+- [Report 1 (20%) :](#report-1-20-)
+  - [Abstract](#abstract)
+  - [Contents](#contents)
+  - [1. GPS observation Equations](#1-gps-observation-equations)
+  - [2. GPS orbit coordinate computation](#2-gps-orbit-coordinate-computation)
+    - [2.1 GPS Broadcast Ephemerides and Precise Ephemerides](#21-gps-broadcast-ephemerides-and-precise-ephemerides)
+    - [2.2 Steps for GPS Satellite Oribit Position Computation](#22-steps-for-gps-satellite-oribit-position-computation)
+  - [3. Satellite clock error algorithms](#3-satellite-clock-error-algorithms)
+  - [4. Receiver positioning algorithms with Pseuorange Measurements](#4-receiver-positioning-algorithms-with-pseuorange-measurements)
+    - [4. 1 Pseudorange Model](#4-1-pseudorange-model)
+    - [4. 2 Carrier phase](#4-2-carrier-phase)
+    - [4. 3 Doppler Measurements](#4-3-doppler-measurements)
+    - [4. 4 Receiver positioning algorithms](#4-4-receiver-positioning-algorithms)
+  - [References](#references)
+
+<div STYLE="page-break-after: always;"></div>
+
 ## 1. GPS observation Equations
 
 When we use radio navigation positioning, we can imagine that there are three known radio signal transmitters on the ground. The receiver can measure the distance from the receiver to the three transmitters($d_1, d_2, d_3$) at a certain time. Three positioning spheres can be drawn with the three transmitters as the centers and $d_1, d_2, d_3$ as the radii. 
 
-![](./imgs/p1.png)
+<!-- ![](./imgs/p1.png) -->
+
+<img src="./imgs/p1.png" alt="drawing" width="60%" height="60%"/>
+
 Figure 1.1. Radio navigation positioning principle 3 known points
 
 Now, the satellite navigation positioning system obeys the same principle. We can concentrate the satellite's position by using three or more known points on the ground (control stations). Conversely, we can concentrate the position of an unknown point on the ground (user receiver) by using the known spatial positions of three or more satellites. By the way, the information about the satellite's position is transmitted to the user receiver by the satellite's broadcast ephemerides, and we will discuss this in the next section.
@@ -38,6 +57,9 @@ $$
 $$
 
 where $X^j_s, Y^j_s, Z^j_s$ are the satellite's position in the ECSF coordinate system, $c$ is the speed of light, $\delta \rho_1^j, \delta \rho_2^j$ are the ionospheric and tropospheric delays, and $\delta t_k$ is the clock error. $\rho'^j$ is the pseudorange measurement, and we will discuss this in the next section 4.
+
+<div STYLE="page-break-after: always;"></div>
+
 
 ## 2. GPS orbit coordinate computation
 
@@ -134,12 +156,43 @@ The essence of high-precision GPS positioning is high-precision time measurement
 2. When factored with the speed of satellites: No implicit like the other two, but it can lead to a distance error of $v_s \delta t_k$.
 3. When factored with the working frequency: This kind of clock error can lead to a phase error of $c \delta t_k / \lambda$.
 
+<div STYLE="page-break-after: always;"></div>
 
 ## 4. Receiver positioning algorithms with Pseuorange Measurements
+
+### 4. 1 Pseudorange Model
+
+### 4. 2 Carrier phase
+
+### 4. 3 Doppler Measurements
+
+Doppler Effects refer to the frequency shift of the wave received at the receiving end due to the relative motion between the two objects (the transmitting end and the receiving end).In GPS positioning, there is also relative motion between the satellite and the receiver. We make the following discussion:
+
+If the signal frequency $f$ is transmitted by the satellite at time $t_e$, and the signal frequency $f_r$ is received by the receiver at time $t_r$, the satellite's motion vector is $\vec{V}$, the direction vector between the satellite and the receiver is $\vec{U_p}$, and the distance between the satellite and the receiver is $\rho$, then we have:
+
+
+<img src="./imgs/p2.png" alt="drawing" width="60%" height="60%"/>
+
+Figure 4.1. Doppler Effects
+
+$$ V_{\rho} = \vec{V} \cdot \vec{U_p} = \cos \alpha \cdot V \tag{4.1} $$
+$$ f_r = f \left( 1 + \frac{V_{\rho}}{c} \right) \tag{4.2} $$
+
+Known $f/c = \lambda$, so we have:
+
+$$ f_d = f_r - f = f \left( \frac{V_{\rho}}{c} \right) = \frac{V_{\rho}}{\lambda} \tag{4.3} $$
+$$ D = \frac{\mathrm{d} \rho}{\lambda \mathrm{d} t} \tag{4.4} $$
+
+Where $D$ is the Doppler count (or integrated Doppler). We can consider the Doppler frequency shift as a by-product of the carrier phase measurement. If we take the clock error in the pseudorange model into account, we can get the Doppler frequency shift as follows:
+
+$$ D = \frac{\mathrm{d} \rho_r^s(t_r,t_e) }{\lambda \mathrm{d} t} - f \frac{\mathrm{d} \beta}{\mathrm{d}t} + \delta f - \epsilon \tag{4.5} $$
+
+where $\beta$ is the term of clock error ($\delta t_r –\delta t_s$), $\delta f$ is the frequency correction of the relativistic effects and $\epsilon$ is error. Effects with low frequency properties such as ionosphere, troposphere, tide, and multipath effects are cancelled out.
+
+
+### 4. 4 Receiver positioning algorithms
 
 
 ## References
 1. GPS: Theory, Algorithms and Applications, by Guochang Xu. Springer, 2007. doi: https://doi.org/10.1007/978-3-662-50367-6
 2. BASIC CONSTANTS FOR ASTRODYNAMICS, http://www.braeunig.us/space/constant.htm
-4. [GPS.js](https://github.com/infusion/GPS.js/?tab=readme-ov-file) : GPS.js is an extensible parser for NMEA sentences, given by any common GPS receiver. The output is tried to be as high-level as possible to make it more useful than simply splitting the information. The aim is, that you don't have to understand NMEA, just plug in your receiver and you're ready to go.
-5. https://www.movable-type.co.uk/scripts/geodesy-library.html

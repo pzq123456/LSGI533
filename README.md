@@ -44,4 +44,5 @@
     - Comparison with similar systems
 
 ## Resources
-https://ap01.alma.exlibrisgroup.com/leganto/readinglist/lists/60854917200003411
+- https://ap01.alma.exlibrisgroup.com/leganto/readinglist/lists/60854917200003411
+- https://www.movable-type.co.uk/scripts/geodesy-library.html
