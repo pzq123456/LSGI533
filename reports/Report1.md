@@ -22,10 +22,10 @@
     - [2.2 Steps for GPS Satellite Oribit Position Computation](#22-steps-for-gps-satellite-oribit-position-computation)
   - [3. Satellite clock error algorithms](#3-satellite-clock-error-algorithms)
   - [4. Receiver positioning algorithms with Pseuorange Measurements](#4-receiver-positioning-algorithms-with-pseuorange-measurements)
-    - [4. 1 Pseudorange Model](#4-1-pseudorange-model)
-    - [4. 2 Carrier phase](#4-2-carrier-phase)
-    - [4. 3 Doppler Measurements](#4-3-doppler-measurements)
-    - [4. 4 Receiver positioning algorithms](#4-4-receiver-positioning-algorithms)
+    - [4.1 Pseudorange Model](#41-pseudorange-model)
+    - [4.2 Carrier phase](#42-carrier-phase)
+    - [4.3 Doppler Measurements](#43-doppler-measurements)
+    - [4.4 Receiver positioning algorithms](#44-receiver-positioning-algorithms)
   - [References](#references)
 
 <div STYLE="page-break-after: always;"></div>
@@ -160,11 +160,30 @@ The essence of high-precision GPS positioning is high-precision time measurement
 
 ## 4. Receiver positioning algorithms with Pseuorange Measurements
 
-### 4. 1 Pseudorange Model
+### 4.1 Pseudorange Model
+GPS Pseudorange measurements are essentially calculated by measuring the time it takes for the signal to propagate from the satellite to the receiver. The reason it is called "pseudorange" is that this distance is not the true geometric distance, but a distance that includes satellite clock errors, receiver clock errors, and errors in the signal propagation process (atmospheric effects, multipath effects, etc.). The following is the derivation of the pseudorange model.
 
-### 4. 2 Carrier phase
+Now we assume that the time the GPS signal is transmitted from the satellite is $t_e$, and the time the signal is received by the receiver is $t_r$. In the case of a vacuum medium and no errors, the speed of light is denoted as $c$. Then the geometric distance from the satellite to the receiver (also equal to the measured pseudorange) can be expressed as:
 
-### 4. 3 Doppler Measurements
+$$ R^s_r(t_r,t_e) = c(t_r - t_e) \tag{4.1} $$
+
+If we consider the satellite clock error $\delta t_s$ and the receiver clock error $\delta t_r$, then we have:
+
+$$ R^s_r(t_r,t_e) = c(t_r - t_e) - c(\delta t_r - \delta t_s) \tag{4.2} $$
+
+In the ECSF coordinate system, we assume that the satellite's position is $(X_s, Y_s, Z_s)$, and the receiver's position is $(X_r, Y_r, Z_r)$. Then we can calculate the geometric distance in the right-hand side of (4.2) as follows:
+
+$$ \rho^s_r(t_r,t_e) = \sqrt{(X_r - X_s)^2 + (Y_r - Y_s)^2 + (Z_r - Z_s)^2} \tag{4.3} $$
+
+If we consider the clock error correction $\delta_{ion}$, ionospheric correction $\delta_{tro}$, tropospheric correction $\delta_{tide}$, multipath effect correction $\delta_{mul}$, relativistic effect correction $\delta_{rel}$, and error $\epsilon$, then we have:
+
+$$ R_r^s(t_r,t_e) = \rho^s_r(t_r,t_e) - c(\delta t_r - \delta t_s) + \delta_{ion} + \delta_{tro} + \delta_{tide} + \delta_{mul} + \delta_{rel} + \epsilon \tag{4.4} $$
+
+However, considering that the height of GPS satellites is usually around 20,200 km, the time it takes for the GPS signal to reach the surface of the Earth at the speed of light is about 0.07s, and the angular velocity of the Earth's rotation is about $15 arcsec^{-1}$, the error caused by the Earth's rotation is about $0.07s \times 15 arcsec^{-1} = 1.05 arcsec$, and this error needs to consider the latitude factor of the Earth because the great circle length of different latitudes is different. In the worst case (the equator), this error will bring about 31m error, so it cannot be easily ignored.
+
+### 4.2 Carrier phase
+
+### 4.3 Doppler Measurements
 
 Doppler Effects refer to the frequency shift of the wave received at the receiving end due to the relative motion between the two objects (the transmitting end and the receiving end).In GPS positioning, there is also relative motion between the satellite and the receiver. We make the following discussion:
 
@@ -190,7 +209,7 @@ $$ D = \frac{\mathrm{d} \rho_r^s(t_r,t_e) }{\lambda \mathrm{d} t} - f \frac{\mat
 where $\beta$ is the term of clock error ($\delta t_r –\delta t_s$), $\delta f$ is the frequency correction of the relativistic effects and $\epsilon$ is error. Effects with low frequency properties such as ionosphere, troposphere, tide, and multipath effects are cancelled out.
 
 
-### 4. 4 Receiver positioning algorithms
+### 4.4 Receiver positioning algorithms
 
 
 ## References
