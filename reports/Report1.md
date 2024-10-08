@@ -26,6 +26,8 @@
     - [4.2 Carrier phase](#42-carrier-phase)
     - [4.3 Doppler Measurements](#43-doppler-measurements)
     - [4.4 Receiver positioning algorithms](#44-receiver-positioning-algorithms)
+      - [Static Absolute Positioning(Single Point Positioning)](#static-absolute-positioningsingle-point-positioning)
+      - [Static Relative Positioning(Static Differential Positioning)](#static-relative-positioningstatic-differential-positioning)
   - [References](#references)
 
 <div STYLE="page-break-after: always;"></div>
@@ -183,6 +185,23 @@ However, considering that the height of GPS satellites is usually around 20,200 
 
 ### 4.2 Carrier phase
 
+By measuring the carrier phase, we can obtain better positioning accuracy. However, the carrier signal is a kind of periodic and discontinuous sine signal (modulated with the ranging code and navigation message), and measuring the carrier phase itself is not enough to determine the distance. We also need to determine how many complete cycles have passed. This introduces the concept of integer ambiguity (N). Essentially, the carrier phase observation is the difference between the phase of the local oscillator in the receiver at the time the signal is received $t_r$ and the phase of the signal transmitted by the satellite $\Phi^s$, plus an integer ambiguity:
+
+$$ \Phi_r^s = \Phi_r - \Phi^s + N_r^s \tag{4.5} $$
+
+The phase of the signal received by the receiver at time $t_r$ is the same as the phase of the signal transmitted by the satellite at time $t_e$. If the propagation time is denoted as $\Delta t$, then we have:
+$$ \Phi^s(t_r) = \Phi_e^s(t_r - \Delta t) \tag{4.6} $$
+
+By considering the propagation time $\Delta t = \rho^s_r(t_r,t_e)/c$ and the frequency of the local oscillator in the receiver $f$, we have:
+
+$$ \Phi_r^s = \frac{\rho^s_r(t_r,t_e)f}{c} + N_r^s \tag{4.7} $$
+
+If we consider the clock error and other errors in the above equation, we have:
+
+$$ \Phi_r^s = \frac{\rho^s_r(t_r,t_e)}{\lambda} - f(\delta t_r - \delta t_s) + N_r^s - \frac{\delta_{ion}}{\lambda} - \frac{\delta_{tro}}{\lambda} - \frac{\delta_{tide}}{\lambda} - \frac{\delta_{mul}}{\lambda} - \frac{\delta_{rel}}{\lambda} + \frac{\epsilon}{\lambda} \tag{4.8} $$
+
+Another thing to note is that the integer ambiguity depends on the continuous observation of the receiver to the satellite. If the observation is interrupted, it will cause an integer jump, and only the phase observation values that are less than one week are correct.
+
 ### 4.3 Doppler Measurements
 
 Doppler Effects refer to the frequency shift of the wave received at the receiving end due to the relative motion between the two objects (the transmitting end and the receiving end).In GPS positioning, there is also relative motion between the satellite and the receiver. We make the following discussion:
@@ -194,23 +213,26 @@ If the signal frequency $f$ is transmitted by the satellite at time $t_e$, and t
 
 Figure 4.1. Doppler Effects
 
-$$ V_{\rho} = \vec{V} \cdot \vec{U_p} = \cos \alpha \cdot V \tag{4.1} $$
-$$ f_r = f \left( 1 + \frac{V_{\rho}}{c} \right) \tag{4.2} $$
+$$ V_{\rho} = \vec{V} \cdot \vec{U_p} = \cos \alpha \cdot V \tag{4.9} $$
+$$ f_r = f \left( 1 + \frac{V_{\rho}}{c} \right) \tag{4.10} $$
 
 Known $f/c = \lambda$, so we have:
 
-$$ f_d = f_r - f = f \left( \frac{V_{\rho}}{c} \right) = \frac{V_{\rho}}{\lambda} \tag{4.3} $$
-$$ D = \frac{\mathrm{d} \rho}{\lambda \mathrm{d} t} \tag{4.4} $$
+$$ f_d = f_r - f = f \left( \frac{V_{\rho}}{c} \right) = \frac{V_{\rho}}{\lambda} \tag{4.11} $$
+$$ D = \frac{\mathrm{d} \rho}{\lambda \mathrm{d} t} \tag{4.12} $$
 
 Where $D$ is the Doppler count (or integrated Doppler). We can consider the Doppler frequency shift as a by-product of the carrier phase measurement. If we take the clock error in the pseudorange model into account, we can get the Doppler frequency shift as follows:
 
-$$ D = \frac{\mathrm{d} \rho_r^s(t_r,t_e) }{\lambda \mathrm{d} t} - f \frac{\mathrm{d} \beta}{\mathrm{d}t} + \delta f - \epsilon \tag{4.5} $$
+$$ D = \frac{\mathrm{d} \rho_r^s(t_r,t_e) }{\lambda \mathrm{d} t} - f \frac{\mathrm{d} \beta}{\mathrm{d}t} + \delta f - \epsilon \tag{4.13} $$
 
 where $\beta$ is the term of clock error ($\delta t_r –\delta t_s$), $\delta f$ is the frequency correction of the relativistic effects and $\epsilon$ is error. Effects with low frequency properties such as ionosphere, troposphere, tide, and multipath effects are cancelled out.
 
 
 ### 4.4 Receiver positioning algorithms
 
+#### Static Absolute Positioning(Single Point Positioning)
+
+#### Static Relative Positioning(Static Differential Positioning)
 
 ## References
 1. GPS: Theory, Algorithms and Applications, by Guochang Xu. Springer, 2007. doi: https://doi.org/10.1007/978-3-662-50367-6
