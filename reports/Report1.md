@@ -158,6 +158,7 @@ The essence of high-precision GPS positioning is high-precision time measurement
 2. When factored with the speed of satellites: No implicit like the other two, but it can lead to a distance error of $v_s \delta t_k$.
 3. When factored with the working frequency: This kind of clock error can lead to a phase error of $c \delta t_k / \lambda$.
 
+接受机的钟差作为一个未知数，需要求解。所以需要至少四个卫星。
 <div STYLE="page-break-after: always;"></div>
 
 ## 4. Receiver positioning algorithms with Pseuorange Measurements
