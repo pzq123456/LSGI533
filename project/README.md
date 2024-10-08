@@ -10,3 +10,6 @@
 - Analysis on performances of the designed system
 - Discussion and conclusion
   - Comparison with similar systems
+
+What is quantum navigation – and could it replace GPS?
+- https://www.weforum.org/agenda/2024/07/what-is-quantum-navigation-earth-observation/
