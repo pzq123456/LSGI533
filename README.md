@@ -43,6 +43,14 @@
   - Discussion and conclusion
     - Comparison with similar systems
 
+
+> Submission date: 18 Oct
+
+- GPS Positioning algorithms
+    - GPS observation Equations
+- Pseudorange, carrier phase, and Doppler
+    - GPS orbit coordinate computation and satellite clock error algorithms
+    - Receiver positioning algorithms with Pseuorange Measurements
 ## Resources
 - https://ap01.alma.exlibrisgroup.com/leganto/readinglist/lists/60854917200003411
 - https://www.movable-type.co.uk/scripts/geodesy-library.html

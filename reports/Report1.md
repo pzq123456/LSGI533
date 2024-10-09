@@ -1,15 +1,9 @@
 # Report 1 (20%) : 
 > - PanZhiQing 24037665g
 
-> Submission date: 18 Oct
-
-- GPS Positioning algorithms
-    - GPS observation Equations
-- Pseudorange, carrier phase, and Doppler
-    - GPS orbit coordinate computation and satellite clock error algorithms
-    - Receiver positioning algorithms with Pseuorange Measurements
-
 ## Abstract
+
+This report can be used as a quick handbook for programmers who want to implement GPS positioning algorithms with programming languages(like MATLAB, Python, C++, etc.). The report covers the GPS observation equations, GPS orbit coordinate computation, satellite clock error algorithms, and receiver positioning algorithms with pseudorange measurements. The report is based on the book "**GPS: Theory, Algorithms and Applications**" by Guochang Xu.
 
 ## Contents
 
@@ -21,13 +15,11 @@
     - [2.1 GPS Broadcast Ephemerides and Precise Ephemerides](#21-gps-broadcast-ephemerides-and-precise-ephemerides)
     - [2.2 Steps for GPS Satellite Oribit Position Computation](#22-steps-for-gps-satellite-oribit-position-computation)
   - [3. Satellite clock error algorithms](#3-satellite-clock-error-algorithms)
-  - [4. Receiver positioning algorithms with Pseuorange Measurements](#4-receiver-positioning-algorithms-with-pseuorange-measurements)
+  - [4. Pseudorange, carrier phase, and Doppler](#4-pseudorange-carrier-phase-and-doppler)
     - [4.1 Pseudorange Model](#41-pseudorange-model)
     - [4.2 Carrier phase](#42-carrier-phase)
     - [4.3 Doppler Measurements](#43-doppler-measurements)
-    - [4.4 Receiver positioning algorithms](#44-receiver-positioning-algorithms)
-      - [Static Absolute Positioning(Single Point Positioning)](#static-absolute-positioningsingle-point-positioning)
-      - [Static Relative Positioning(Static Differential Positioning)](#static-relative-positioningstatic-differential-positioning)
+    - [4.4 Receiver positioning algorithms with Pseuorange Measurements](#44-receiver-positioning-algorithms-with-pseuorange-measurements)
   - [References](#references)
 
 <div STYLE="page-break-after: always;"></div>
@@ -58,7 +50,7 @@ $$
 [(X^j_s - X)^2 + (Y^j_s - Y)^2 + (Z^j_s - Z)^2]^{\frac{1}{2}} - c \delta t_k = \rho'^j + \delta \rho_1^j + \delta \rho_2^j - c\delta t^j \quad j = 1, 2, 3, 4... \tag{1.4}
 $$
 
-where $X^j_s, Y^j_s, Z^j_s$ are the satellite's position in the ECSF coordinate system, $c$ is the speed of light, $\delta \rho_1^j, \delta \rho_2^j$ are the ionospheric and tropospheric delays, and $\delta t_k$ is the clock error. $\rho'^j$ is the pseudorange measurement, and we will discuss this in the next section 4.
+where $X^j_s, Y^j_s, Z^j_s$ are the satellite's position in the ECSF coordinate system, $c$ is the speed of light, $\delta \rho_1^j, \delta \rho_2^j$ are the ionospheric and tropospheric delays, and $\delta t_k$ is the clock error. $\rho'^j$ is the pseudorange measurement, and we will discuss this in the section 4.1.
 
 <div STYLE="page-break-after: always;"></div>
 
@@ -99,7 +91,7 @@ At any given time, the satellite transmits the following parameters to the user 
 - $C_{rc}, C_{rs}$ : correction coefficients (of geocentric distance) 
 - $C_{ic}, C_{is}$ : correction coefficients (of inclination) 
 
-In this table, we have one reference epoch for the satellite clock ($t_c$) and another for the ephemerides ($t_{oe}$), six orbital elements ($\sqrt{a}, e, M_0, ω_0, i_0, Ω_0$), and nine correction coefficients ($Δ_n, idot, \dot{\Omega}, C_{uc}, C_{us}, C_{rc}, C_{rs}, C_{ic}, C_{is}$).
+We have one reference epoch for the satellite clock ($t_c$) and another for the ephemerides ($t_{oe}$), six orbital elements ($\sqrt{a}, e, M_0, ω_0, i_0, Ω_0$), and nine correction coefficients ($Δ_n, idot, \dot{\Omega}, C_{uc}, C_{us}, C_{rc}, C_{rs}, C_{ic}, C_{is}$).
 
 Consistent observation and systematic adjustment of the GPS satellites can correct the uncertainty of the Broadcast Ephemerides, resulting in what is called Precise Ephemerides. They can be downloaded for free from several internet homepages (e.g., www.gfz-potsdam.de).
 
@@ -142,7 +134,11 @@ For observation time $t'$, the satellite's position can be calculated as follows
 
 Now, we have the satellite's position in the ECSF coordinate system from the Broadcast Ephemerides.
 
+<div STYLE="page-break-after: always;"></div>
+
+
 ## 3. Satellite clock error algorithms
+
 As we mationed in the 2.1, $a_0, a_1, a_2$ are polynomial coefficients of the satellite clock error. More specifically, $a_0$ is the clock bias, $a_1$ is the clock drift, and $a_2$ is the acceleration of the related clock. So the satellite clock error can be calculated as follows:
 
 $$ \delta t_k = a_0 + a_1(t' - t_c) + a_2(t' - t_c)^2 \tag{3.1} $$
@@ -158,10 +154,11 @@ The essence of high-precision GPS positioning is high-precision time measurement
 2. When factored with the speed of satellites: No implicit like the other two, but it can lead to a distance error of $v_s \delta t_k$.
 3. When factored with the working frequency: This kind of clock error can lead to a phase error of $c \delta t_k / \lambda$.
 
-接受机的钟差作为一个未知数，需要求解。所以需要至少四个卫星。
+The satellite clock error can be calculated by the broadcast ephemerides of the satellite, as shown above. However, the GPS system cannot know the receiver's clock error, so the receiver's clock error is considered an unknown parameter that is equivalent to the three-dimensional coordinates of the receiver, as shown in equation (1.4).
+
 <div STYLE="page-break-after: always;"></div>
 
-## 4. Receiver positioning algorithms with Pseuorange Measurements
+## 4. Pseudorange, carrier phase, and Doppler
 
 ### 4.1 Pseudorange Model
 GPS Pseudorange measurements are essentially calculated by measuring the time it takes for the signal to propagate from the satellite to the receiver. The reason it is called "pseudorange" is that this distance is not the true geometric distance, but a distance that includes satellite clock errors, receiver clock errors, and errors in the signal propagation process (atmospheric effects, multipath effects, etc.). The following is the derivation of the pseudorange model.
@@ -199,7 +196,9 @@ $$ \Phi_r^s = \frac{\rho^s_r(t_r,t_e)f}{c} + N_r^s \tag{4.7} $$
 
 If we consider the clock error and other errors in the above equation, we have:
 
-$$ \Phi_r^s = \frac{\rho^s_r(t_r,t_e)}{\lambda} - f(\delta t_r - \delta t_s) + N_r^s - \frac{\delta_{ion}}{\lambda} - \frac{\delta_{tro}}{\lambda} - \frac{\delta_{tide}}{\lambda} - \frac{\delta_{mul}}{\lambda} - \frac{\delta_{rel}}{\lambda} + \frac{\epsilon}{\lambda} \tag{4.8} $$
+$$ \Phi_r^s = \frac{\rho^s_r(t_r,t_e)}{\lambda} - f(\delta t_r - \delta t_s) + N_r^s - \frac{\delta_{ion}}{\lambda} + \frac{\delta_{tro}}{\lambda} + \frac{\delta_{tide}}{\lambda} + \frac{\delta_{mul}}{\lambda} + \frac{\delta_{rel}}{\lambda} + \frac{\epsilon}{\lambda} \tag{4.8} $$
+
+where $\lambda$ is the wavelength of the carrier signal. Specifically, the ionosphere will accelerate the phase of the signal while other factors will decelerate it, and that is why the ionospheric correction is positive in the above equation(others are negative).
 
 Another thing to note is that the integer ambiguity depends on the continuous observation of the receiver to the satellite. If the observation is interrupted, it will cause an integer jump, and only the phase observation values that are less than one week are correct.
 
@@ -229,11 +228,73 @@ $$ D = \frac{\mathrm{d} \rho_r^s(t_r,t_e) }{\lambda \mathrm{d} t} - f \frac{\mat
 where $\beta$ is the term of clock error ($\delta t_r –\delta t_s$), $\delta f$ is the frequency correction of the relativistic effects and $\epsilon$ is error. Effects with low frequency properties such as ionosphere, troposphere, tide, and multipath effects are cancelled out.
 
 
-### 4.4 Receiver positioning algorithms
+### 4.4 Receiver positioning algorithms with Pseuorange Measurements
 
-#### Static Absolute Positioning(Single Point Positioning)
+In the observation equation (1.4), we assume that $(X_0, Y_0, Z_0)^T$ is the approximate value of the station coordinates, and $(\delta_x, \delta_y, \delta_z)^T$ is the correction value of the station coordinates. We can expand the observation equation (1.4) into a Taylor series:
 
-#### Static Relative Positioning(Static Differential Positioning)
+```math
+
+\left\{
+\begin{align*} 
+(d\rho/dx)_{x0} = (X_s^j - X_0) / \rho_0^j = l^j \\
+(d\rho/dy)_{y0} = (Y_s^j - Y_0) / \rho_0^j = m^j  \\
+(d\rho/dz)_{z0} = (Z_s^j - Z_0) / \rho_0^j = n^j \\
+\end{align*} 
+\right. \tag{4.14}
+```
+
+
+We have:
+$$ \rho_0 = \sqrt{(X_s^j - X_0)^2 + (Y_s^j - Y_0)^2 + (Z_s^j - Z_0)^2} \tag{4.15} $$
+
+In the case of synchronous observation of four satellites, we can get the observation matrix:
+
+$$
+\begin{bmatrix} \rho_0^1 \\ \rho_0^2 \\ \rho_0^3 \\ \rho_0^4 \end{bmatrix} -
+\begin{bmatrix} 
+    l^1 & m^1 & n^1 - 1\\ 
+    l^2 & m^2 & n^2 - 1\\ 
+    l^3 & m^3 & n^3 - 1\\ 
+    l^4 & m^4 & n^4 - 1
+\end{bmatrix}
+\begin{bmatrix} \delta x \\ \delta y \\ \delta z \\ \delta \rho \end{bmatrix} = 
+\begin{bmatrix} 
+    \rho'^1 + \delta \rho_1^1 + \delta \rho_2^1 - c\delta t^1 \\ 
+    \rho'^2 + \delta \rho_1^2 + \delta \rho_2^2 - c\delta t^2 \\
+    \rho'^3 + \delta \rho_1^3 + \delta \rho_2^3 - c\delta t^3 \\
+    \rho'^4 + \delta \rho_1^4 + \delta \rho_2^4 - c\delta t^4
+\end{bmatrix} 
+\tag{4.16}
+$$
+
+
+The following symbols are defined:
+```math
+A_i = 
+\begin{bmatrix} 
+    l^1 & m^1 & n^1 - 1\\
+    l^2 & m^2 & n^2 - 1\\
+    l^3 & m^3 & n^3 - 1\\
+    l^4 & m^4 & n^4 - 1
+\end{bmatrix},
+
+\left\{
+\begin{align*}
+    \delta X = (\delta x, \delta y, \delta z, \delta \rho)^T \\
+    L^j = \rho'^j + \delta \rho_1^j + \delta \rho_2^j - \rho_0^j \\
+    \bold{L_i} = (L^1, L^2, L^3, L^4)^T
+\end{align*}
+\right.
+\tag{4.17}
+```
+
+
+The observation equation (4.16) can be written in matrix form:
+$$ A_i \delta X + \bold{L_i} = 0\tag{4.18} $$
+
+When the number of synchronous observed satellites is more than 4, we can use the least squares method to solve $\delta X$, that is:
+$$ V_i = A_i \delta X + \bold{L_i} \tag{4.19} $$
+$$ \delta X = - (A_i^T A_i)^{-1} （A_i^T \bold{L_i}） \tag{4.20} $$
 
 ## References
 1. GPS: Theory, Algorithms and Applications, by Guochang Xu. Springer, 2007. doi: https://doi.org/10.1007/978-3-662-50367-6
