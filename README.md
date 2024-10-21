@@ -1,5 +1,8 @@
 # Satellite Positioning and Navigation Systems
 
+前六节课 8-10 个简答
+
+
 ## Content
 - Introduction [Lecture 1](./LSGI533Lec1.md)
 - GPS signal structure and observables (Lecture 2)
