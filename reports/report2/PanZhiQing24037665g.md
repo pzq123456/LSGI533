@@ -45,9 +45,18 @@ Where $R_r^s(t_r,t_e)$ is the pseudorange observation value, $\lambda \phi_r^s(t
 ### 2.1 Receiver Design
 GPS Antenna Design is one of the key factors in eliminating multipath interference. In most cases, the direct GPS signal comes from above horizontally, while the multipath signal comes from below horizontally; the GPS signal is right-handed circularly polarized, while the multipath signal may be left-handed circularly polarized. Therefore, under the premise of ensuring a clear view from above horizontally, the antenna design should minimize the reception of signals from below horizontally. In addition, side radiation and back radiation are also important sources of multipath interference.
 
-Dual-Band GPS-RSW Antenna is a patch antenna designed for dual-frequency GPS (L1 and L2) with reduced surface wave. It has a compact dual-layer concentric ring structure (inner and outer rings correspond to L1 and L2, respectively). This antenna performs well in the horizontal plane and back radiation, significantly reducing ground reflection and low-angle multipath interference, suitable for high-precision positioning applications.[$^2$](#References)
+A choke ring antenna is a directional antenna designed for reception of GNSS signals from satellites. It consists of a number of concentric conductive cylinders around a central antenna.
 
-<img src="./imgs/p2.png" width="400" />
+For example, the classic choke ring antenna, which is designed to reduce ground reflection and low-angle multipath interference. Some well-designed choke ring antennas installed in ground stations can provide millimeter-level accuracy, making GPS positioning information useful for geodetic and geophysical measurements.
+
+<img src="./imgs/p2.png" width="300" />
+
+Figure 2: A choke ring antenna (real photo).
+
+Also, there are some small antenna designs, such as the Dual-Band GPS-RSW Antenna. The Dual-Band GPS-RSW Antenna is a patch antenna designed for dual-frequency GPS (L1 and L2) with reduced surface wave. It has a compact dual-layer concentric ring structure (inner and outer rings correspond to L1 and L2, respectively). This antenna performs well in the horizontal plane and back radiation, significantly reducing ground reflection and low-angle multipath interference, suitable for high-precision positioning applications.[$^2$](#References)
+
+<img src="./imgs/p3.png" width="400" />
+
 Figure 2: A dual-band reduced-surface-wave patch antenna (top view).
 
 ### 2.2 Improvement of Receiver Correlation Techniques
@@ -72,9 +81,24 @@ Filtering with observables (pseudorange, carrier phase)
 The traditional method of detecting multipath signals uses the carrier-to-noise-density ratio (C/N0) measurement of the GNSS signal [47]. By defining a threshold for the C/N0 values, a signal with C/N0 greater than the threshold is classified as an LOS-only signal, and a signal with C/N0 lesser than the threshold is classified as an NLOS-only or LOS+NLOS signal. Similarly, there are numerous software- based detection algorithms for GNSS measurements, such as the Doppler shift and code-minus-carrier values [48], [49]. Additionally, there are hardware-based detection methods that use a special antenna [50], a sky-pointing camera [51], and a method that uses a three-dimensional (3D) model of a city and ray-tracing techniques [52]. Furthermore, GNSS multipath signal detection techniques using machine learning approaches have been emerging recently [53]–[55].
 
 ### 2.4 Combination of Computer Science Methods
-1. Machine Learning-based Methods
-2. 3D Model-based Methods
 
+With the development of computer technology, people's ability to model the real world is also constantly improving. Compared with traditional methods based on empirical formulas, filters, etc., it is now possible to perform more detailed modeling and analysis through computers. For example, the use of machine learning algorithms to detect multipath signals in GNSS measurements has been proposed in recent years.[$^3$](#References) In addition, the use of 3D models of cities and ray-tracing techniques to detect multipath signals has also been proposed.[$^{4,5}$](#References)
+
+
+#### 2.4.1. Machine Learning-based Methods
+The machine learning-based GPS multipath detection method proposed by Kim et al. uses four features (i.e., C/N0, time difference of C/N0, difference between pseudorange time difference and pseudorange rate, satellite elevation angle) and one feature (i.e., double-difference pseudorange residual of dual antennas). The four machine learning algorithms used in the study are GBDT, Random Forest, Decision Tree, and K-Nearest Neighbor (KNN).[$^3$](#References)
+
+#### 2.4.2. 3D Model-based Methods
+
+We mentioned earlier that multipath effects are related to the local environment of the receiver and the height of the satellite position. In other words, the impact of multipath effects can be modeled by a computer. In Google Earth, more and more cities have detailed digital models. By combining these models with ray tracing techniques, we can quantify the multipath effects caused by buildings in the city and effectively reduce their impact.
+
+Through randomly selecting sampling points near the receiver (e.g., within 15m), combined with the city's digital model and ray tracing techniques, we can calculate the simulated pseudorange value of each sampling point. Combined with the real measured pseudorange, these simulated pseudoranges can be used to correct the real pseudorange observations (e.g., weighted average based on similarity) and detect outliers (e.g., multipath signals reflected two or more times).
+
+<img src="./imgs/p4.png" width="400" />
+
+Figure 4: Multipath detection with 3D digital maps for robust multi-constellation GNSS/INS vehicle localization in urban areas.
+
+With the gradual maturity of technologies such as autonomous driving, the digital models of the surrounding environment can also be dynamically generated through vehicle-mounted radar. This dynamic 3D map can be fully combined with the vehicle-mounted GNSS receiver to achieve real-time detection and reduction of multipath effects, thereby improving the positioning accuracy of the vehicle-mounted GNSS in urban roads.
 
 ## 3. Comparative Analysis of GNSS Techniques
 
@@ -90,3 +114,6 @@ The traditional method of detecting multipath signals uses the carrier-to-noise-
 3. Kim, Sanghyun, Jungyun Byun, and Kwansik Park. "Machine Learning-Based GPS Multipath Detection Method Using Dual Antennas." arXiv preprint arXiv:2204.14001 (2022). doi: https://doi.org/10.48550/arXiv.2204.14001
 
 4. Hsu, Li-Ta, Yanlei Gu, and Shunsuke Kamijo. "NLOS Correction/Exclusion for GNSS Measurement Using RAIM and City Building Models." Sensors 15, no. 7 (2015): 17329-17349. doi: 10.3390/s150717329
+
+5. M. Obst, S. Bauer, P. Reisdorf and G. Wanielik, "Multipath detection with 3D digital maps for robust multi-constellation GNSS/INS vehicle localization in urban areas," 2012 IEEE Intelligent Vehicles Symposium, Madrid, Spain, 2012, pp. 184-190, doi: 10.1109/IVS.2012.6232285.
+
