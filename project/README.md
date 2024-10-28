@@ -15,5 +15,15 @@
 - Discussion and conclusion
   - Comparison with similar systems
 
+Ambiguity Validation
+Total: 107 combinations
+• Which one is right?
+– Check them all!
+How to compute quickly?
+• Large number of combinations needed to be tested
+(i.e. 107)
+• Reduce computation load
+
 What is quantum navigation – and could it replace GPS?
 - https://www.weforum.org/agenda/2024/07/what-is-quantum-navigation-earth-observation/
+- https://thequantuminsider.com/2024/08/09/boeings-quantum-based-navigation-system-takes-flight-in-historic-test/

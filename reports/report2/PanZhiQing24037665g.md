@@ -3,6 +3,14 @@
 > - Report 2 (20%) (submission date: 8 Nov)
 > - Review of mitigation methods for GNSS multipath errors
 
+
+
+> - 文献综述报告
+> - 需要阅读4-10篇相关文献
+> - 天线设计、信号处理方法、
+> - big picture
+> - 具体讲解一种方法，也可以只深入简介一种方法 Wen Duo Jie 及 Wu Chen 会阅读这些 report。
+
 ## Abstract
 
 ## Contents
