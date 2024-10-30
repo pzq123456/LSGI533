@@ -50,30 +50,29 @@ Where $R_r^s(t_r,t_e)$ is the pseudorange observation value, $\lambda \phi_r^s(t
 
 ## 2. Review of GNSS Multipath Error Mitigation Methods In Recent Years
 
-### 2.1 Combination of Computer Science Methods
+<!-- ### 2.1 Combination of Computer Science Methods -->
 
 With the development of computer technology, people's ability to model the real world is also constantly improving. Compared with traditional methods based on empirical formulas, filters, etc., it is now possible to perform more detailed modeling and analysis through computers. For example, the use of machine learning algorithms to detect multipath signals in GNSS measurements has been proposed in recent years.[$^3$](#References) In addition, the use of 3D models of cities and ray-tracing techniques to detect multipath signals has also been proposed.[$^{4,5}$](#References)
 
 
-#### 2.1.1. Machine Learning-based Methods
+### 2.1 Machine Learning-based Methods
+在过去的十来年，机器学习算法越来越多地参与到定位相关的应用中，例如处理从各类复杂传感器中获取到的大量数据（LiDAR pointclouds、高清照片等）。概括性地讲，机器学习算法依赖大量的数据，尤其是有标注的数据。这些算法首先会从数据中提取有效特征（embedding），然后优化网络参数以识别这些特征以达成特定的任务（分类、分割及目标检测等）。相较于传统的基于统计学或信号处理领域的算法，这种基于数据驱动的方法更加灵活，且在一定程度上可以适应不同的场景。但是，也存在一些问题，例如需要大量的标注数据、模型的可解释性较差及过拟合等。
+
+In the past decade, machine learning algorithms have been increasingly involved in positioning-related applications, such as processing large amounts of data obtained from various complex sensors (LiDAR point clouds, high-definition photos, etc.). In general, machine learning algorithms rely on large amounts of data, especially annotated data. These algorithms first extract effective features (embedding) from the data, and then optimize the network parameters to identify these features to achieve specific tasks (classification, segmentation, and object detection, etc.). Compared with traditional algorithms based on statistics or signal processing, this data-driven method is more flexible and can adapt to different scenarios to some extent. However, there are also some problems, such as the need for a large amount of annotated data, poor interpretability of the model, and overfitting.
+
+
 机器学习算法可以自动建模、提取及识别复杂数据集中的特征。GNSS 接收机的观测数据本质上是一个兼具时间维度、空间维度和频率维度的多维数据集。这种多维度数据正是机器学习算法所擅长处理的。例如经典的 CNN 网络，可以对图像数据进行特征提取和分类。若我们将 GNSS 的接收机数据格式化为类似于多通道图像数据的格式，就可以使用 CNN 网络来识别多径信号。Evgenii Munin 等人通过构建人造信号来模拟不同的GNSS接收器配置，并将输出的两个波段信号（I、Q）格式化为在地理空间分布的二维图像，然后使用 CNN 网络来识别多径信号。可以发现，在多径信号区域 CNN 被明显激活，从而实现了多径信号的检测。[$^7$](#References)
 
-Machine learning algorithms can automatically model, extract, and identify features in complex datasets. The observation data of GNSS receivers is essentially a multidimensional dataset with time, space, and frequency dimensions. This multidimensional data is exactly what machine learning algorithms are good at handling. For example, the classic CNN network can extract features and classify image data. If we format the GNSS receiver data into a format similar to multi-channel image data, we can use the CNN network to identify multipath signals. Evgenii Munin et al. simulated different GNSS receiver configurations by constructing artificial signals and formatted the output two-band signals (I, Q) into two-dimensional images distributed in geographic space, and then used the CNN network to identify multipath signals. It can be found that CNN is significantly activated in the multipath signal area, thereby achieving multipath signal detection.
+Machine learning algorithms can automatically model, extract, and identify features in complex datasets. The observation data of GNSS receivers is essentially a multidimensional dataset with time, space, and frequency dimensions. This multidimensional data is exactly what machine learning algorithms are good at handling. For example, the classic CNN network can extract features and classify image data. If we format the GNSS receiver data into a format similar to multi-channel image data, we can use the CNN network to identify multipath signals. Evgenii Munin et al. simulated different GNSS receiver configurations by constructing artificial signals and formatted the output two-band signals (I, Q) into two-dimensional images distributed in geographic space, and then used the CNN network to identify multipath signals. It can be found that CNN is significantly activated in the multipath signal area, thereby achieving multipath signal detection. [$^7$](#References)
 
 ![](./imgs/p6.png)
 Figure 6: Activation map of CNN for multipath detection in GNSS receivers.
 
-
 The machine learning-based GPS multipath detection method proposed by Kim et al. uses four features (i.e., C/N0, time difference of C/N0, difference between pseudorange time difference and pseudorange rate, satellite elevation angle) and one feature (i.e., double-difference pseudorange residual of dual antennas). The four machine learning algorithms used in the study are GBDT, Random Forest, Decision Tree, and K-Nearest Neighbor (KNN).[$^3$](#References)
 
-
-
-
-#### 2.1.2. 3D Model-based Methods
+### 2.2 3D Model-based Methods
 
 We mentioned earlier that multipath effects are related to the local environment of the receiver and the height of the satellite position. In other words, the impact of multipath effects can be modeled by a computer. In Google Earth, more and more cities have detailed digital models. By combining these models with ray tracing techniques, we can quantify the multipath effects caused by buildings in the city and effectively reduce their impact. This method is called 3D city maps aided (3DMA) GNSS.
-
-
 
 Through randomly selecting sampling points near the receiver (e.g., within 15m), combined with the city's digital model and ray tracing techniques, we can calculate the simulated pseudorange value of each sampling point. Combined with the real measured pseudorange, these simulated pseudoranges can be used to correct the real pseudorange observations (e.g., weighted average based on similarity) and detect outliers (e.g., multipath signals reflected two or more times).
 
@@ -99,7 +98,58 @@ Figure 3: Real-time exclusion of GNSS NLOS receptions caused by dynamic objects 
   3. Exclude satellites blocked by double-decker buses based on the elevation angle, azimuth, signal-to-noise ratio of the satellite, and boundary information of the double-decker bus (elevation angle and azimuth in the Skyplot).
   4. Use satellites excluded from NLOS for GNSS positioning.
 
-### 2.1 Receiver Design
+### 2.3 Multi-Device Fusion Method
+
+在自动驾驶领域，获取位置信息可以通过融合多种传感器数据来实现。例如，车载 GNSS 接收机、IMU、激光雷达、摄像头等。这些传感器数据可以提供不同的信息，例如车辆的位置、姿态、速度、周围环境的三维点云数据、高清照片等。
+
+Weisong Wen 等人提出了一种基于全传感器套件的数据集 UrbanLoco，该数据集包含一套完整的传感器信息，包括激光雷达、360度视角相机、惯性测量单元（IMU）和全球导航卫星系统（GNSS）。考虑到高层建筑密集的城市区域会显著遮挡 GNSS 信号，并有伴生的多径效应及 NLOS 问题，他们通过估算某一点位的城市化率来评估 GNSS 定位的可靠性。城市化率是指某一点位周围被建筑物遮挡的天空的比例。[$^{10}$](#References)
+
+他们使用 Skymask 方法，通过安装在车顶鱼眼相机拍摄的图像，结合图像分割算法，生成极坐标图显示建筑物轮廓。Skymask 中的灰色区域表示被建筑物阻挡的天空，白色区域表示清晰天空。Skymask 的生成可基于三维建筑模型或使用车辆顶部的鱼眼相机及图像分割算法。为了定量分析Skymask，进一步定义了两个参数：平均掩膜高程角（µMEA）和掩膜高程角标准差（σ²MEA）。它们的定义如下：
+
+- 平均掩膜高程角$\mu_{MEA}$计算公式：
+
+$$
+\mu_{MEA} = \frac{1}{N} \sum_{\alpha=1}^{N} \theta_{\alpha}
+$$
+  
+- 掩膜高程角标准差$\sigma^2_{MEA}$计算公式：
+
+$$
+\sigma^2_{MEA} = \frac{\sum_{ \alpha=1}^{N} (\theta_{\alpha} - \mu_{MEA})^2}{N-1}
+$$
+
+其中，$\theta_{\alpha}$ 表示在特定方位角 $\alpha$ 下的高程角，与建筑物高度密切相关，$N$ 表示来自 Skymask 的均匀间隔的方位角数量。通常，$N$ 取 360，这意味着方位角的分辨率为 1 度。
+
+当车处于密集城市区域时，Skymask 通常会被高层建筑主导，从而导致较大的 $\mu_{MEA}$ 和相对较小的 $\sigma^2_{MEA}$。而在农村地区，$\mu_{MEA}$ 和 $\sigma^2_{MEA}$ 都相对较小。在高低建筑混合的地区，$\sigma^2_{MEA}$ 会相对较大。
+
+通过上述城市化测量方法，数据集评估了当前测绘/定位数据集的城市化率。结果表明，三个数据集的城市化水平明显低于香港的城市化水平。通过测量城市化率，可以评估当前定位数据集的城市化率，从而评估 GNSS 定位的可靠性。同时，也可以选择在这些区域采用其他定位方法，例如IMU、激光雷达等。
+
+In the field of autonomous driving, location information can be obtained by fusing data from multiple sensors. For example, vehicle-mounted GNSS receivers, IMUs, LiDARs, cameras, etc. These sensor data can provide different information, such as the vehicle's position, attitude, speed, three-dimensional point cloud data of the surrounding environment, high-definition photos, etc.
+
+Weisong Wen et al. proposed a dataset UrbanLoco based on a full sensor suite, which includes LiDAR, 360-degree view cameras, inertial measurement units (IMUs), and global navigation satellite systems (GNSS). Considering that densely built-up urban areas will significantly block GNSS signals and have associated multipath effects and NLOS problems, they evaluate the reliability of GNSS positioning by estimating the urbanization rate of a point. The urbanization rate refers to the proportion of the sky blocked by buildings around a point. [$^{10}$](#References)
+
+They use the Skymask method to generate a polar coordinate map showing the outline of buildings by combining images taken by a fisheye camera installed on the roof of the vehicle with image segmentation algorithms. The gray area in Skymask represents the sky blocked by buildings, and the white area represents the clear sky. The generation of Skymask can be based on a 3D building model or using a fisheye camera and image segmentation algorithm on the top of the vehicle. To quantitatively analyze Skymask, two parameters are further defined: the mean elevation angle of the mask (µMEA) and the standard deviation of the elevation angle of the mask (σ²MEA). They are defined as follows:
+
+- The formula for calculating the mean elevation angle $\mu_{MEA}$ of the mask:
+$$
+\mu_{MEA} = \frac{1}{N} \sum_{\alpha=1}^{N} \theta_{\alpha} \tag{2.1}
+$$
+
+- The formula for calculating the standard deviation of the elevation angle of the mask $\sigma^2_{MEA}$:
+
+$$
+\sigma^2_{MEA} = \frac{\sum_{ \alpha=1}^{N} (\theta_{\alpha} - \mu_{MEA})^2}{N-1} \tag{2.2}
+$$
+
+Where $\theta_{\alpha}$ represents the elevation angle at a specific azimuth $\alpha$, which is closely related to the building height, and $N$ represents the number of azimuths with uniform intervals from Skymask. Typically, $N$ is set to 360, which means that the resolution of the azimuth is 1 degree.
+
+When the vehicle is in a densely built-up urban area, Skymask is usually dominated by high-rise buildings, resulting in a larger $\mu_{MEA}$ and a relatively smaller $\sigma^2_{MEA}$. In rural areas, both $\mu_{MEA}$ and $\sigma^2_{MEA}$ are relatively small. In areas with a mix of high and low buildings, $\sigma^2_{MEA}$ will be relatively large.
+
+Through the above urbanization measurement method, the dataset evaluates the urbanization rate of the current mapping/positioning dataset. The results show that the urbanization levels of the three datasets are significantly lower than that of Hong Kong. By measuring the urbanization rate, the urbanization rate of the current positioning dataset can be evaluated, thereby evaluating the reliability of GNSS positioning. At the same time, other positioning methods, such as IMUs, LiDARs, etc., can also be selected in these areas.
+
+
+
+### 2.4 Receiver Design
 GPS Antenna Design is one of the key factors in eliminating multipath interference. In most cases, the direct GPS signal comes from above horizontally, while the multipath signal comes from below horizontally; the GPS signal is right-handed circularly polarized, while the multipath signal may be left-handed circularly polarized. Therefore, under the premise of ensuring a clear view from above horizontally, the antenna design should minimize the reception of signals from below horizontally. In addition, side radiation and back radiation are also important sources of multipath interference.
 
 A choke ring antenna is a directional antenna designed for reception of GNSS signals from satellites. It consists of a number of concentric conductive cylinders around a central antenna.
@@ -136,5 +186,10 @@ Figure 5: A dual-band reduced-surface-wave patch antenna (top view).
 8. Ashwin V. Kanhere, Shubh Gupta, Akshay Shetty, Grace Gao. "Improving GNSS Positioning using Neural Network-based Corrections." arXiv preprint arXiv:2110.09581 (2021). doi: https://doi.org/10.48550/arXiv.2110.09581
 
 9. Weisong Wen, Guohao Zhang, Li-Ta Hsu. "Exclusion of GNSS NLOS Receptions Caused by Dynamic Objects in Heavy Traffic Urban Scenarios Using Real-Time 3D Point Cloud: An Approach without 3D Maps." arXiv preprint arXiv:1804.10917 (2018). doi: https://doi.org/10.48550/arXiv.1804.10917
+
+10. W. Wen, G. Zhang, L. Hsu, "UrbanLoco: A Full Sensor Suite Dataset for Mapping and Localization in Urban Scenes," 2020 IEEE International Conference on Robotics and Automation (ICRA), Paris, France, 2020, pp. 2310-2316, doi: 10.1109/ICRA40945.2020.9196526.
+
+11. G. Zhang, P. Xu, H. Xu and L. -T. Hsu, "Prediction on the Urban GNSS Measurement Uncertainty Based on Deep Learning Networks With Long Short-Term Memory," in IEEE Sensors Journal, vol. 21, no. 18, pp. 20563-20577, 15 Sept.15, 2021, doi: 10.1109/JSEN.2021.3098006.
+
 
 
