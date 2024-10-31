@@ -70,17 +70,35 @@ Figure 6: Activation map of CNN for multipath detection in GNSS receivers.
 
 The machine learning-based GPS multipath detection method proposed by Kim et al. uses four features (i.e., C/N0, time difference of C/N0, difference between pseudorange time difference and pseudorange rate, satellite elevation angle) and one feature (i.e., double-difference pseudorange residual of dual antennas). The four machine learning algorithms used in the study are GBDT, Random Forest, Decision Tree, and K-Nearest Neighbor (KNN).[$^3$](#References)
 
-### 2.2 3D Model-based Methods
 
-We mentioned earlier that multipath effects are related to the local environment of the receiver and the height of the satellite position. In other words, the impact of multipath effects can be modeled by a computer. In Google Earth, more and more cities have detailed digital models. By combining these models with ray tracing techniques, we can quantify the multipath effects caused by buildings in the city and effectively reduce their impact. This method is called 3D city maps aided (3DMA) GNSS.
+机器学习算法除了可以有效识别多路径效应外，还可以预测诸如GNSS satellite visibility、 pseudorange error 等其他 GNSS 测量的不确定性。例如，Zhang 等人使用 LSTM 网络来预测 GNSS 测量的不确定性。[$^{11}$](#References) 其中， satellite visibility 指的是卫星是否受到遮挡，pseudorange error 指的是多径效应引起的伪距误差。他们通过 FCNN 网络来提取 GNSS 信号的特征，然后通过 LSTM 网络来整合时序 GNSS 信号上下文以预测卫星可见性和伪距误差。 Fully Connected Neural Networks (FCNNs) 是一种常见的神经网络结构，主要用于特征提取及输出格式化。Long Short-Term Memory (LSTM) 通过引入记忆单元来模拟记忆及遗忘过程，从而实现对时序数据的建模。
 
-Through randomly selecting sampling points near the receiver (e.g., within 15m), combined with the city's digital model and ray tracing techniques, we can calculate the simulated pseudorange value of each sampling point. Combined with the real measured pseudorange, these simulated pseudoranges can be used to correct the real pseudorange observations (e.g., weighted average based on similarity) and detect outliers (e.g., multipath signals reflected two or more times).
+Machine learning algorithms can not only effectively identify multipath effects but also predict the uncertainty of other GNSS measurements, such as GNSS satellite visibility and pseudorange error. For example, Zhang et al. used an LSTM network to predict the uncertainty of GNSS measurements.[$^{11}$](#References) Here, satellite visibility refers to whether the satellite is blocked, and pseudorange error refers to the pseudorange error caused by multipath effects. They used an FCNN network to extract features of GNSS signals and then used an LSTM network to integrate the temporal context of GNSS signals to predict satellite visibility and pseudorange error. Fully Connected Neural Networks (FCNNs) are a common neural network structure used for feature extraction and output formatting. Long Short-Term Memory (LSTM) simulates memory and forgetting processes by introducing memory units, thereby modeling time-series data.
+
+![](./imgs/p8.png)
+Figure 7: LSTM-based GNSS measurement uncertainty prediction.
+
+### 2.2 3D Model-based Methods(3DMA GNSS)
+
+除了匹配卫星可见性外，3DMA GNSS 射线跟踪进一步考虑了测量和基于 3D 建筑模型的预测之间的伪距延迟匹配。尽管 3DMA GNSS 可以在密集城市区域实现 10 米的定位精度。
+
+We mentioned earlier that multipath effects are related to the local environment of the receiver and the height of the satellite position. In other words, the impact of multipath effects can be modeled by a computer via 3D models of cities(3DMA GNSS).[$^6$](#References)
+
+在该领域，较早被提出的一个方法是通过城市的 3D 数字模型来检测并剔除可能会收到多路径影响的卫星。在此之后有基于光线追踪技术的方法来量化城市中建筑物引起的多径效应，该方法在高楼密集的区域能够达到10m的定位精度。
+
+In this field, an earlier method is to detect and exclude satellites that may be affected by multipath effects through the 3D digital model of the city. After that, a method based on ray tracing techniques was proposed to quantify the multipath effects caused by buildings in the city, which can achieve a positioning accuracy of 10m in high-rise dense areas.
+
+Through randomly selecting sampling points near the receiver (e.g., within 15m), combined with the city's digital model and ray tracing techniques, we can calculate the simulated pseudorange value of each sampling point. Combined with the real measured pseudorange, these simulated pseudoranges can be used to correct the real pseudorange observations (e.g., weighted average based on similarity) and detect outliers (e.g., multipath signals reflected two or more times).[$^5$](#References)
 
 <img src="./imgs/p4.png" width="400" />
 
 Figure 2: Multipath detection with 3D digital maps for robust multi-constellation GNSS/INS vehicle localization in urban areas.
 
-With the gradual maturity of technologies such as autonomous driving, the digital models of the surrounding environment can also be dynamically generated through vehicle-mounted radar. This dynamic 3D map can be fully combined with the vehicle-mounted GNSS receiver to achieve real-time detection and reduction of multipath effects, thereby improving the positioning accuracy of the vehicle-mounted GNSS in urban roads.
+With the gradual maturity of technologies such as autonomous driving, the digital models of the surrounding environment can also be dynamically generated through vehicle-mounted radar. This dynamic 3D map can be fully combined with the vehicle-mounted GNSS receiver to achieve real-time detection and reduction of multipath effects, thereby improving the positioning accuracy of the vehicle-mounted GNSS in urban roads.[$^9$](#References)
+
+随着城市数字资产逐步增长（例如谷歌地球中的城市模型），这项技术的应用前景也越发广阔。但是，这项技术也存在若干局限性，例如某一城市的三维模型过于放大，导致计算量过大，或者某些城市的三维模型尚未建立等。此时，可以考虑使用 LiDAR 来实时生成局地区域的三维模型。
+
+With the gradual growth of urban digital assets (such as city models in Google Earth), the application prospects of this technology are becoming broader. However, this technology also has several limitations, such as the three-dimensional model of a city being too large, resulting in excessive computational complexity, or the three-dimensional model of some cities not yet being established. In this case, LiDAR can be used to generate real-time 3D models of local areas.
 
 类似于 Google Earth 中的城市三维模型只包含了静态的城市建筑物模型，而在实际的城市道路中，动态的障碍物也会产生多径效应（例如，香港街头常见的双层大巴）。此时，如果只是依赖静态的城市建筑物模型来检测多路径效应就无法满足实际需求，甚至会带来另外的误差。使用 LiDAR 来实时生成城市道路的三维模型，结合车载 GNSS 接收机，可以实现对动态障碍物的检测和多径效应的实时消除，从而提高车载 GNSS 在城市道路上的定位精度。[$^9$](#References) 
 
@@ -126,7 +144,7 @@ $$
 
 In the field of autonomous driving, location information can be obtained by fusing data from multiple sensors. For example, vehicle-mounted GNSS receivers, IMUs, LiDARs, cameras, etc. These sensor data can provide different information, such as the vehicle's position, attitude, speed, three-dimensional point cloud data of the surrounding environment, high-definition photos, etc.
 
-Weisong Wen et al. proposed a dataset UrbanLoco based on a full sensor suite, which includes LiDAR, 360-degree view cameras, inertial measurement units (IMUs), and global navigation satellite systems (GNSS). Considering that densely built-up urban areas will significantly block GNSS signals and have associated multipath effects and NLOS problems, they evaluate the reliability of GNSS positioning by estimating the urbanization rate of a point. The urbanization rate refers to the proportion of the sky blocked by buildings around a point. [$^{10}$](#References)
+Weisong Wen et al. proposed a dataset UrbanLoco based on a full sensor suite, which includes LiDAR, 360-degree view cameras, inertial measurement units (IMUs), and global navigation satellite systems (GNSS). Considering that densely built-up urban areas will significantly block GNSS signals and have associated multipath effects and NLOS problems, they evaluate the reliability of GNSS positioning by estimating the urbanization rate of a point (skyview blockage). The urbanization rate refers to the proportion of the sky blocked by buildings around a point. [$^{10}$](#References)
 
 They use the Skymask method to generate a polar coordinate map showing the outline of buildings by combining images taken by a fisheye camera installed on the roof of the vehicle with image segmentation algorithms. The gray area in Skymask represents the sky blocked by buildings, and the white area represents the clear sky. The generation of Skymask can be based on a 3D building model or using a fisheye camera and image segmentation algorithm on the top of the vehicle. To quantitatively analyze Skymask, two parameters are further defined: the mean elevation angle of the mask (µMEA) and the standard deviation of the elevation angle of the mask (σ²MEA). They are defined as follows:
 
@@ -138,7 +156,7 @@ $$
 - The formula for calculating the standard deviation of the elevation angle of the mask $\sigma^2_{MEA}$:
 
 $$
-\sigma^2_{MEA} = \frac{\sum_{ \alpha=1}^{N} (\theta_{\alpha} - \mu_{MEA})^2}{N-1} \tag{2.2}
+\sigma^2_{MEA} = \sqrt \frac{\sum_{ \alpha=1}^{N} (\theta_{\alpha} - \mu_{MEA})^2}{N-1} \tag{2.2}
 $$
 
 Where $\theta_{\alpha}$ represents the elevation angle at a specific azimuth $\alpha$, which is closely related to the building height, and $N$ represents the number of azimuths with uniform intervals from Skymask. Typically, $N$ is set to 360, which means that the resolution of the azimuth is 1 degree.
@@ -191,5 +209,4 @@ Figure 5: A dual-band reduced-surface-wave patch antenna (top view).
 
 11. G. Zhang, P. Xu, H. Xu and L. -T. Hsu, "Prediction on the Urban GNSS Measurement Uncertainty Based on Deep Learning Networks With Long Short-Term Memory," in IEEE Sensors Journal, vol. 21, no. 18, pp. 20563-20577, 15 Sept.15, 2021, doi: 10.1109/JSEN.2021.3098006.
 
-
-
+12. Wang, L., Groves, P. D., & Ziebart, M. K. (2015). Smartphone Shadow Matching for Better Cross-street GNSS Positioning in Urban Environments. Journal of Navigation, 68(3), 411-433. doi: 10.1017/S0373463314000836
