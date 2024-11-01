@@ -24,6 +24,10 @@ How to compute quickly?
 (i.e. 107)
 • Reduce computation load
 
+量子导航
 What is quantum navigation – and could it replace GPS?
 - https://www.weforum.org/agenda/2024/07/what-is-quantum-navigation-earth-observation/
 - https://thequantuminsider.com/2024/08/09/boeings-quantum-based-navigation-system-takes-flight-in-historic-test/
+
+太阳系导航，基于脉冲星导航
+https://arxiv.org/abs/0812.2635

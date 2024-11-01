@@ -1,19 +1,20 @@
 # Report 2 (20%) : 
 > - PanZhiQing24037665g
-> - Report 2 (20%) (submission date: 8 Nov)
-> - Review of mitigation methods for GNSS multipath errors
-
-
-
-> - 文献综述报告
-> - 需要阅读4-10篇相关文献
-> - 天线设计、信号处理方法、
-> - big picture
-> - 具体讲解一种方法，也可以只深入简介一种方法 Wen Duo Jie 及 Wu Chen 会阅读这些 report。
 
 ## Abstract
 
 ## Contents
+- [Report 2 (20%) :](#report-2-20-)
+  - [Abstract](#abstract)
+  - [Contents](#contents)
+  - [1. Introduction](#1-introduction)
+  - [2. Review of GNSS Multipath Error Mitigation Methods In Recent Years](#2-review-of-gnss-multipath-error-mitigation-methods-in-recent-years)
+    - [2.1 Machine Learning-based Methods](#21-machine-learning-based-methods)
+    - [2.2 3D Model-based Methods(3DMA GNSS)](#22-3d-model-based-methods3dma-gnss)
+    - [2.3 Multi-Device Fusion Method](#23-multi-device-fusion-method)
+    - [2.4 Receiver Design](#24-receiver-design)
+  - [References](#references)
+
 
 ## 1. Introduction
 
@@ -84,15 +85,33 @@ Figure 7: LSTM-based GNSS measurement uncertainty prediction.
 
 We mentioned earlier that multipath effects are related to the local environment of the receiver and the height of the satellite position. In other words, the impact of multipath effects can be modeled by a computer via 3D models of cities(3DMA GNSS).[$^6$](#References)
 
-在该领域，较早被提出的一个方法是通过城市的 3D 数字模型来检测并剔除可能会收到多路径影响的卫星。在此之后有基于光线追踪技术的方法来量化城市中建筑物引起的多径效应，该方法在高楼密集的区域能够达到10m的定位精度。
+在该领域，较早被提出的一个方法是通过城市的 3D 数字模型来检测并剔除可能会收到多路径影响的卫星(shadow matching 方法)。在此之后有基于光线追踪技术的方法来量化城市中建筑物引起的多径效应，该方法在高楼密集的区域能够达到10m的定位精度。
 
-In this field, an earlier method is to detect and exclude satellites that may be affected by multipath effects through the 3D digital model of the city. After that, a method based on ray tracing techniques was proposed to quantify the multipath effects caused by buildings in the city, which can achieve a positioning accuracy of 10m in high-rise dense areas.
+In this field, an earlier method is to detect and exclude satellites that may be affected by multipath effects through the 3D digital model of the city (e.g. shadow matching method). Subsequently, a method based on ray tracing technology was proposed to quantify the multipath effects caused by buildings in the city, which can achieve a positioning accuracy of 10m in high-rise dense areas.
+
+<!-- shadow matching 方法 -->
+之所以需要通过城市的 3D 数字模型来检测多径干扰，是因为手机中安装的消费级 GNSS 接收机功率不够，难以通过信噪比（SNR）区分直射线（LOS）信号和通常的非直射线（NLOS）信号。 
+Wang 等人[$^12$](#References) 使用伦敦市部分区域的 3D 建筑模型，结合星历数据使用 Shadow matching 方法对接收到的信号进行排位，仅挑选排位高的信号进行定位。
+
+The reason why it is necessary to use the 3D digital model of the city to detect multipath interference is that the power of consumer-grade GNSS receivers installed in mobile phones is insufficient to distinguish between line-of-sight (LOS) signals and typically non-line-of-sight (NLOS) signals through signal-to-noise ratio (SNR). Wang et al.[$^{12}$](#References) used a 3D building model of part of London City, combined with ephemeris data, to use the Shadow matching method to rank the received signals and only select the signals with high rankings for positioning.
+![](./imgs/p9.png)
+Figure 8: 3D Model for London City.
+
+
+他们使用的 Shadow matching 方法，具体来说就是将建筑物边界表示为方位角-高程对，然后投影至当地的天空图中，这样再结合星历数据计算出的卫星位置，就可以构造用于排位的指标。
+
+The Shadow matching method they used specifically represents the building boundary as azimuth-elevation pairs, which are then projected onto the local sky plot. Combined with the satellite positions calculated from ephemeris data, an index for ranking can be constructed.
+
+![](./imgs/p10.png)
+Figure 9: an example of a building boundary as azimuth-elevation pairs in a sky plot. 
+
+通过在接收机附近（例如，15m内）随机选择采样点，结合城市的数字模型和射线追踪技术，我们可以计算出每个采样点的模拟伪距值。结合实测伪距，这些模拟伪距可以用于校正实测伪距观测值（例如，基于相似性的加权平均）并检测异常值（例如，反射两次或两次以上的多径信号）。[$^5$](#References)
 
 Through randomly selecting sampling points near the receiver (e.g., within 15m), combined with the city's digital model and ray tracing techniques, we can calculate the simulated pseudorange value of each sampling point. Combined with the real measured pseudorange, these simulated pseudoranges can be used to correct the real pseudorange observations (e.g., weighted average based on similarity) and detect outliers (e.g., multipath signals reflected two or more times).[$^5$](#References)
 
 <img src="./imgs/p4.png" width="400" />
 
-Figure 2: Multipath detection with 3D digital maps for robust multi-constellation GNSS/INS vehicle localization in urban areas.
+Figure 10: Multipath detection with 3D digital maps for robust multi-constellation GNSS/INS vehicle localization in urban areas.
 
 With the gradual maturity of technologies such as autonomous driving, the digital models of the surrounding environment can also be dynamically generated through vehicle-mounted radar. This dynamic 3D map can be fully combined with the vehicle-mounted GNSS receiver to achieve real-time detection and reduction of multipath effects, thereby improving the positioning accuracy of the vehicle-mounted GNSS in urban roads.[$^9$](#References)
 
@@ -109,7 +128,7 @@ Weisong Wen 等人使用 LiDAR 实时获取三维点云数据，并结合 GNSS �
 Weisong Wen et al. use LiDAR to obtain real-time 3D point cloud data and combine it with real-time observation data from GNSS receivers to detect and exclude satellite signals blocked by double-decker buses in real time, thereby improving the positioning accuracy of vehicle-mounted GNSS on Hong Kong city roads. Here are the specific steps:
 
 ![](./imgs/p5.png)
-Figure 3: Real-time exclusion of GNSS NLOS receptions caused by dynamic objects in heavy traffic urban scenarios using real-time 3D point cloud.
+Figure 11: Real-time exclusion of GNSS NLOS receptions caused by dynamic objects in heavy traffic urban scenarios using real-time 3D point cloud.
 
   1. First, cluster the 3D point cloud data based on Euclidean distance and identify double-decker buses through preset parameters.
   2. Centered on the vehicle-mounted GNSS receiver, project the satellites and double-decker buses onto the Skyplot for subsequent detection of blocked satellites.
@@ -168,7 +187,9 @@ Through the above urbanization measurement method, the dataset evaluates the urb
 
 
 ### 2.4 Receiver Design
-GPS Antenna Design is one of the key factors in eliminating multipath interference. In most cases, the direct GPS signal comes from above horizontally, while the multipath signal comes from below horizontally; the GPS signal is right-handed circularly polarized, while the multipath signal may be left-handed circularly polarized. Therefore, under the premise of ensuring a clear view from above horizontally, the antenna design should minimize the reception of signals from below horizontally. In addition, side radiation and back radiation are also important sources of multipath interference.
+消费级别的 GNSS 天线具有较低的增益和较少的极化区分。这使得通过信噪比（SNR）区分直射线（LOS）信号和通常的非直射线（NLOS）信号更加困难。因此，天线设计是消除多径干扰的关键因素之一。在大多数情况下，直接的 GPS 信号是从上方水平方向传来的，而多径信号是从下方水平方向传来的；GPS 信号是右旋圆极化的，而多径信号可能是左旋圆极化的。因此，在确保从上方水平方向有清晰视野的前提下，天线设计应尽量减少从下方水平方向接收信号。此外，侧向辐射和背向辐射也是多径干扰的重要来源。
+
+Consumer-grade GNSS antennas have low gain and less polarization discrimination. This makes it more difficult to distinguish between line-of-sight (LOS) signals and typically non-line-of-sight (NLOS) signals through signal-to-noise ratio (SNR). Therefore, antenna design is one of the key factors in eliminating multipath interference. In most cases, the direct GPS signal comes from the overhead horizontal direction, while the multipath signal comes from the lower horizontal direction; the GPS signal is right-handed circularly polarized, while the multipath signal may be left-handed circularly polarized. Therefore, under the premise of ensuring a clear view from the overhead horizontal direction, the antenna design should minimize the reception of signals from the lower horizontal direction as much as possible. In addition, side radiation and back radiation are also important sources of multipath interference.
 
 A choke ring antenna is a directional antenna designed for reception of GNSS signals from satellites. It consists of a number of concentric conductive cylinders around a central antenna.
 
@@ -176,13 +197,13 @@ For example, the classic choke ring antenna, which is designed to reduce ground 
 
 <img src="./imgs/p2.png" width="300" />
 
-Figure 4: A choke ring antenna (real photo).
+Figure 12: A choke ring antenna (real photo).
 
 Also, there are some small antenna designs, such as the Dual-Band GPS-RSW Antenna. The Dual-Band GPS-RSW Antenna is a patch antenna designed for dual-frequency GPS (L1 and L2) with reduced surface wave. It has a compact dual-layer concentric ring structure (inner and outer rings correspond to L1 and L2, respectively). This antenna performs well in the horizontal plane and back radiation, significantly reducing ground reflection and low-angle multipath interference, suitable for high-precision positioning applications.[$^2$](#References)
 
 <img src="./imgs/p3.png" width="400" />
 
-Figure 5: A dual-band reduced-surface-wave patch antenna (top view).
+Figure 13: A dual-band reduced-surface-wave patch antenna (top view).
 
 <div STYLE="page-break-after: always;"></div>
 
