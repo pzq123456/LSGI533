@@ -3,10 +3,20 @@
 > - Report Submission (10 Dec)
 > - Topic : Design an integrated navigation system for a specified application related to your work or experience
 
-- 小组 6-7 个成员。
+- 小组 6-7 个成员。前六节课被包含于 phase task
 
-前六节课被包含于 phase task
+## 可能的选题 
+### Deep Space Navigation System (DSNS) 
+> - CNS (Celestial Navigation System) for deep space navigation
+> - 太阳系导航，基于脉冲星导航
+> - https://arxiv.org/abs/0812.2635
 
+
+- So Chester, T. J. and Butman, S. A. describe space- craft navigation using X-ray pulsars in 1981 (Chester and Butman, 1981). 由于存在干扰，选择 X 射线脉冲星导航系统。
+- Dr Sheikh, S. I. et al. construct the X-ray pulsar-based autonomous navigation theory which based on modern spacecraft navigation technique that include Kalman filter et al. (Sheikh, 2005).
+
+- Then all signal be normalizing to solar system barycenter coordinates (SSBC).
+- 脉冲星的优势 有些甚至比原子钟还要准 The data show some pulsar stability than atomic clock in the timescale greater than one year (Matsakis, Taylor and Eubanks, 1997).
 ## Report (10-20 pages)
 - Purposes of the application
 - Navigation Requirements
@@ -15,19 +25,7 @@
 - Discussion and conclusion
   - Comparison with similar systems
 
-Ambiguity Validation
-Total: 107 combinations
-• Which one is right?
-– Check them all!
-How to compute quickly?
-• Large number of combinations needed to be tested
-(i.e. 107)
-• Reduce computation load
-
-量子导航
-What is quantum navigation – and could it replace GPS?
-- https://www.weforum.org/agenda/2024/07/what-is-quantum-navigation-earth-observation/
-- https://thequantuminsider.com/2024/08/09/boeings-quantum-based-navigation-system-takes-flight-in-historic-test/
-
-太阳系导航，基于脉冲星导航
-https://arxiv.org/abs/0812.2635
+## 废弃的选题
+- 量子导航 What is quantum navigation – and could it replace GPS?
+  - https://www.weforum.org/agenda/2024/07/what-is-quantum-navigation-earth-observation/
+  - https://thequantuminsider.com/2024/08/09/boeings-quantum-based-navigation-system-takes-flight-in-historic-test/
