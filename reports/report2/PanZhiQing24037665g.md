@@ -14,6 +14,7 @@
     - [2.3 Multi-Device Fusion Method](#23-multi-device-fusion-method)
     - [2.4 Receiver Design](#24-receiver-design)
   - [3. Conclusion](#3-conclusion)
+  - [Appendix](#appendix)
   - [References](#references)
 
 
@@ -162,6 +163,12 @@ Figure 13: A dual-band reduced-surface-wave patch antenna (top view).
 ## 3. Conclusion
 
 <div STYLE="page-break-after: always;"></div>
+
+## Appendix
+主要详细介绍
+  - CNN、LSTM 等机器学习算法
+  - 光线追踪技术
+  - 及GPU加速计算在 GNSS 领域中的应用
 
 ## References
 1. GPS: Theory, Algorithms and Applications, by Guochang Xu. Springer, 2007. doi: https://doi.org/10.1007/978-3-662-50367-6
