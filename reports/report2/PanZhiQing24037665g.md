@@ -1,10 +1,11 @@
-# Report 2 (20%) : 
+# Report 2 
 > - PanZhiQing24037665g
 
 ## Abstract
+In this report, I will explore the development of related technologies from multiple perspectives around the topic of multipath effects. The focus of this report is the application of computer technology in multipath detection, compensation, elimination, etc. First, I will briefly introduce the basic concepts of multipath effects, and then review the methods of multipath error mitigation in recent years from the perspectives of machine learning, 3D modeling, multi-device fusion, receiver design, etc. Finally, I will provide further introductions to some important methods in the appendix, such as Convolution Neural Network, Long Short-Term Memory, Ray Tracing Algorithm, etc.
 
 ## Contents
-- [Report 2 (20%) :](#report-2-20-)
+- [Report 2](#report-2)
   - [Abstract](#abstract)
   - [Contents](#contents)
   - [1. Introduction](#1-introduction)
@@ -20,6 +21,8 @@
     - [4.3 Ray Tracing Algorithm](#43-ray-tracing-algorithm)
   - [References](#references)
 
+
+<div STYLE="page-break-after: always;"></div>
 
 ## 1. Introduction
 
@@ -143,6 +146,8 @@ Where $\theta_{\alpha}$ represents the elevation angle at a specific azimuth $\a
 When the vehicle is in a densely built-up urban area, Skymask is usually dominated by high-rise buildings, resulting in a larger $\mu_{MEA}$ and a relatively smaller $\sigma^2_{MEA}$. In rural areas, both $\mu_{MEA}$ and $\sigma^2_{MEA}$ are relatively small. In areas with a mix of high and low buildings, $\sigma^2_{MEA}$ will be relatively large.
 
 Through the above urbanization measurement method, the dataset evaluates the urbanization rate of the current mapping/positioning dataset. The results show that the urbanization levels of the three datasets are significantly lower than that of Hong Kong. By measuring the urbanization rate, the urbanization rate of the current positioning dataset can be evaluated, thereby evaluating the reliability of GNSS positioning. At the same time, other positioning methods, such as IMUs, LiDARs, etc., can also be selected in these areas.
+
+<div STYLE="page-break-after: always;"></div>
 
 ### 2.4 Receiver Design
 
