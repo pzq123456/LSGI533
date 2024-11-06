@@ -16,7 +16,9 @@
   - [4. Appendix](#4-appendix)
     - [1. Convolution Neural Network (CNN)](#1-convolution-neural-network-cnn)
     - [2. Long Short-Term Memory (LSTM)](#2-long-short-term-memory-lstm)
+- [\\end{bmatrix}](#endbmatrix)
     - [3. Ray Tracing](#3-ray-tracing)
+    - [3. Ray Tracing](#3-ray-tracing-1)
   - [References](#references)
 
 
@@ -214,12 +216,65 @@ $$
 Figure 12: An example of 2D max pooling operation
 
 ### 2. Long Short-Term Memory (LSTM)
+LSTM[$^{14}$](#references)(Long Short-Term Memory) 网络是一种循环神经网络（RNN），具有强大的序列数据建模与预测能力（例如，时间序列）。相较于传统的前馈全连接网络，RNN 具有循环连接可以“记住”序列中的某些模式，但是由于梯度消失/爆炸问题，RNN 在处理长序列时会出现困难。LSTM 网络通过引入门控单元（例如遗忘门、输入门、输出门）来解决梯度消失/爆炸问题，从而可以更好地处理长序列数据。
+
+LSTM[$^{14}$](#references)(Long Short-Term Memory) Network is a type of Recurrent Neural Network (RNN) with powerful sequence data modeling and prediction capabilities (e.g., time series). Compared with traditional feedforward fully connected networks, RNNs have recurrent connections that can "remember" certain patterns in the sequence, but due to the vanishing/exploding gradient problem, RNNs have difficulty in processing long sequences. LSTM networks solve the vanishing/exploding gradient problem by introducing gate units (e.g., forget gate, input gate, output gate), which can better handle long sequence data.
+
+<img src="./imgs/p14.png" />
+
+Figure 13: Classic LSTM Structure
+
+$$
+\begin{aligned}
+i_t &= \sigma(W_{ii}x_t + b_{ii} + W_{hi}h_{t-1} + b_{hi})  \\ \tag{4.4}
+f_t &= \sigma(W_{if}x_t + b_{if} + W_{hf}h_{t-1} + b_{hf})  \\ 
+g_t &= \tanh(W_{ig}x_t + b_{ig} + W_{hg}h_{t-1} + b_{hg})  \\
+o_t &= \sigma(W_{io}x_t + b_{io} + W_{ho}h_{t-1} + b_{ho})  \\
+c_t &= f_t \odot c_{t-1} + i_t \odot g_t  \\
+h_t &= o_t \odot \tanh(c_t)  \\
+\end{aligned}
+$$
+
+其中，$h_t$ 表示时间 $t$ 的隐藏状态，$c_t$ 表示时间 $t$ 的元素状态， $x_t$ 表示时间 $t$ 的输入，$i_t$ 表示输入门，$f_t$ 表示遗忘门，$o_t$ 表示输出门，$g_t$ 表示新的元素状态。
+
+Where $h_t$ represents the hidden state at time $t$, $c_t$ represents the cell state at time $t$, $x_t$ represents the input at time $t$, $i_t$ represents the input gate, $f_t$ represents the forget gate, $o_t$ represents the output gate, $g_t$ represents the new cell state.
+
+Hadamard product $\odot$ is an element-wise product. For example :
+$$
+\begin{aligned} \tag{4.5}
+\begin{bmatrix}
+1 & 2 \\
+3 & 4 \\
+\end{bmatrix}
+\odot
+\begin{bmatrix}
+5 & 6 \\
+7 & 8 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 \times 5 & 2 \times 6 \\
+3 \times 7 & 4 \times 8 \\
+\end{bmatrix}
+\end{aligned}
+$$
 
 ### 3. Ray Tracing
 主要详细介绍
   - CNN、LSTM 等机器学习算法
   - 光线追踪技术
   - 及GPU加速计算在 GNSS 领域中的应用
+
+### 3. Ray Tracing
+光线追踪算法是计算机图形学中的一种渲染技术，其目的是通过模拟真实的光线反射过程来使得渲染结果更加的生动真实。此算法由 Appel 在 1968 年初步提出,1980 年由 Whitted 改良为递归算法并提出全局光照模型. 光线追踪算法的基本思想是从视点出发, 沿着视线方向反向追踪场景中的光线传播直到返回光源, 并计算光线与物体的交点, 然后根据交点处的材质属性计算光线的反射、折射、透射等, 最终得到像素的颜色值. 光线追踪算法的优点是可以模拟真实的光线传播过程, 其中包含了重要方法, 诸如冯氏光照模型 (Phong Shading)、辐射度 (Radiosity)、光子映射 (Photon Mapping)、蒙特卡罗方法 (Monte Carlo) 等等. 
+
+典型的 Phong 光照模型是光线追踪算法的基础, 它包含了环境光$\mathbf {I} _{a}$、漫反射光$\mathbf {I} _{d}$、镜面反射光$\mathbf {I} _{s}$三种光照效果, 其中漫反射光和镜面反射光的计算公式如下:
+
+$$
+I_{\text{p}} = k_{\text{a}}I_{\text{a}} + k_{\text{d}}I_{\text{d}}(\mathbf {L} \cdot \mathbf {N} ) + k_{\text{s}}I_{\text{s}}(\mathbf {R} \cdot \mathbf {V} )^{\alpha }
+$$
+
+其中, $I_{\text{p}}$ 是点的颜色值, $k_{\text{a}}$、$k_{\text{d}}$、$k_{\text{s}}$ 分别是环境光、漫反射光、镜面反射光的反射系数, $\mathbf {L}$ 是光线方向向量, $\mathbf {N}$ 是法向量, $\mathbf {R}$ 是反射光线方向向量, $\mathbf {V}$ 是视线方向向量, $\alpha$ 是高光系数.
 
 ## References
 1. GPS: Theory, Algorithms and Applications, by Guochang Xu. Springer, 2007. doi: https://doi.org/10.1007/978-3-662-50367-6

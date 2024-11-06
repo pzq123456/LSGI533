@@ -15,9 +15,9 @@
     - [2.4 Receiver Design](#24-receiver-design)
   - [3. Conclusion](#3-conclusion)
   - [4. Appendix](#4-appendix)
-    - [1. Convolution Neural Network (CNN)](#1-convolution-neural-network-cnn)
-    - [2. Long Short-Term Memory (LSTM)](#2-long-short-term-memory-lstm)
-    - [3. Ray Tracing](#3-ray-tracing)
+    - [4.1 Convolution Neural Network (CNN)](#41-convolution-neural-network-cnn)
+    - [4.2 Long Short-Term Memory (LSTM)](#42-long-short-term-memory-lstm)
+    - [4.3 Ray Tracing Algorithm](#43-ray-tracing-algorithm)
   - [References](#references)
 
 
@@ -170,9 +170,9 @@ Figure 9: A dual-band reduced-surface-wave patch antenna (top view).
 ## 4. Appendix
 I will add some necessary content in this section.
 
-### 1. Convolution Neural Network (CNN)
+### 4.1 Convolution Neural Network (CNN)
 
-From an engineering perspective, a typical CNN network consists of three parts: convolutional layers, pooling layers, and fully connected layers. Convolutional layers are mainly used to extract features, pooling layers are mainly used to reduce dimensions, and fully connected layers are mainly used for classification. Most typically, assuming we have a $[64 \times 64 \times 3]$ input, after convolutional layers and pooling layers, we finally output a $[1 \times 1 \times n]$ output, where $n$ represents the number of possible categories. The structure of the CNN network is shown in the figure.
+From an engineering perspective, a typical CNN network[$^{13}$](#references) consists of three parts: convolutional layers, pooling layers, and fully connected layers. Convolutional layers are mainly used to extract features, pooling layers are mainly used to reduce dimensions, and fully connected layers are mainly used for classification. Most typically, assuming we have a $[64 \times 64 \times 3]$ input, after convolutional layers and pooling layers, we finally output a $[1 \times 1 \times n]$ output, where $n$ represents the number of possible categories. The structure of the CNN network is shown in the figure.
 
 ![](./imgs/p11.png)
 
@@ -210,13 +210,62 @@ The pooling operation is to take a fixed-size window on each channel of the inpu
 
 Figure 12: An example of 2D max pooling operation
 
-### 2. Long Short-Term Memory (LSTM)
+<div STYLE="page-break-after: always;"></div>
 
-### 3. Ray Tracing
-主要详细介绍
-  - CNN、LSTM 等机器学习算法
-  - 光线追踪技术
-  - 及GPU加速计算在 GNSS 领域中的应用
+### 4.2 Long Short-Term Memory (LSTM)
+
+LSTM[$^{14}$](#references)(Long Short-Term Memory) Network is a type of Recurrent Neural Network (RNN) with powerful sequence data modeling and prediction capabilities (e.g., time series). Compared with traditional feedforward fully connected networks, RNNs have recurrent connections that can "remember" certain patterns in the sequence, but due to the vanishing/exploding gradient problem, RNNs have difficulty in processing long sequences. LSTM networks solve the vanishing/exploding gradient problem by introducing gate units (e.g., forget gate, input gate, output gate), which can better handle long sequence data.
+
+<img src="./imgs/p14.png" />
+
+Figure 13: Classic LSTM Structure
+
+$$
+\begin{aligned}
+i_t &= \sigma(W_{ii}x_t + b_{ii} + W_{hi}h_{t-1} + b_{hi})  \\ \tag{4.4}
+f_t &= \sigma(W_{if}x_t + b_{if} + W_{hf}h_{t-1} + b_{hf})  \\ 
+g_t &= \tanh(W_{ig}x_t + b_{ig} + W_{hg}h_{t-1} + b_{hg})  \\
+o_t &= \sigma(W_{io}x_t + b_{io} + W_{ho}h_{t-1} + b_{ho})  \\
+c_t &= f_t \odot c_{t-1} + i_t \odot g_t  \\
+h_t &= o_t \odot \tanh(c_t)  \\
+\end{aligned}
+$$
+
+Where $h_t$ represents the hidden state at time $t$, $c_t$ represents the cell state at time $t$, $x_t$ represents the input at time $t$, $i_t$ represents the input gate, $f_t$ represents the forget gate, $o_t$ represents the output gate, $g_t$ represents the new cell state.
+
+Hadamard product $\odot$ is an element-wise product. For example :
+$$
+\begin{aligned} \tag{4.5}
+\begin{bmatrix}
+1 & 2 \\
+3 & 4 \\
+\end{bmatrix}
+\odot
+\begin{bmatrix}
+5 & 6 \\
+7 & 8 \\
+\end{bmatrix}
+= \begin{bmatrix}
+1 \times 5 & 2 \times 6 \\
+3 \times 7 & 4 \times 8 \\
+\end{bmatrix}
+\end{aligned}
+$$
+
+<div STYLE="page-break-after: always;"></div>
+
+### 4.3 Ray Tracing Algorithm
+
+Ray Tracing is a rendering technique in computer graphics that simulates the reflection of light rays to make the rendering results more vivid and realistic. This algorithm was initially proposed by Appel in 1968 and improved by Whitted in 1980 to a recursive algorithm and proposed a global illumination model. The basic idea of the Ray Tracing algorithm is to start from the viewpoint, trace the light rays backward along the line of sight until they return to the light source, calculate the intersection of the light rays with the objects, and then calculate the reflection, refraction, transmission, etc. of the light rays according to the material properties at the intersection, and finally obtain the color value of the pixel. The advantage of the Ray Tracing algorithm is that it can simulate the real light propagation process, which includes important methods such as the Phong Shading model, Radiosity, Photon Mapping, Monte Carlo methods, etc.
+
+The typical Phong lighting model is the basis of the Ray Tracing algorithm, which includes three types of light effects: ambient light $\mathbf {I} _{a}$, diffuse light $\mathbf {I} _{d}$, and specular light $\mathbf {I} _{s}$. The calculation formulas for diffuse light and specular light are as follows:
+
+$$
+I_{\text{p}} = k_{\text{a}}I_{\text{a}} + k_{\text{d}}I_{\text{d}}(\mathbf {L} \cdot \mathbf {N} ) + k_{\text{s}}I_{\text{s}}(\mathbf {R} \cdot \mathbf {V} )^{\alpha }
+$$
+
+Where $I_{\text{p}}$ is the color value of the point, $k_{\text{a}}$, $k_{\text{d}}$, $k_{\text{s}}$ are the reflection coefficients of ambient light, diffuse light, and specular light, respectively, $\mathbf {L}$ is the light direction vector, $\mathbf {N}$ is the normal vector, $\mathbf {R}$ is the reflection light direction vector, $\mathbf {V}$ is the line of sight direction vector, and $\alpha$ is the specular coefficient.
+
 
 <div STYLE="page-break-after: always;"></div>
 
@@ -246,3 +295,5 @@ Figure 12: An example of 2D max pooling operation
 12. Wang, L., Groves, P. D., & Ziebart, M. K. (2015). Smartphone Shadow Matching for Better Cross-street GNSS Positioning in Urban Environments. Journal of Navigation, 68(3), 411-433. doi: 10.1017/S0373463314000836
 
 13. Vincent Dumoulin, Francesco Visin. "A guide to convolution arithmetic for deep learning." arXiv preprint arXiv:1603.07285 (2016). doi: https://doi.org/10.48550/arXiv.1603.07285
+
+14. Haşim Sak, Andrew Senior, Françoise Beaufays. "Long Short-Term Memory Based Recurrent Neural Network Architectures for Large Vocabulary Speech Recognition." arXiv preprint arXiv:1402.1128 (2014). doi: https://doi.org/10.48550/arXiv.1402.1128
