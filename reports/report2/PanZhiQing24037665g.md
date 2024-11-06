@@ -14,7 +14,10 @@
     - [2.3 Multi-Device Fusion Method](#23-multi-device-fusion-method)
     - [2.4 Receiver Design](#24-receiver-design)
   - [3. Conclusion](#3-conclusion)
-  - [Appendix](#appendix)
+  - [4. Appendix](#4-appendix)
+    - [1. Convolution Neural Network (CNN)](#1-convolution-neural-network-cnn)
+    - [2. Long Short-Term Memory (LSTM)](#2-long-short-term-memory-lstm)
+    - [3. Ray Tracing](#3-ray-tracing)
   - [References](#references)
 
 
@@ -62,7 +65,7 @@ In the past decade, machine learning algorithms have been increasingly involved 
 Machine learning algorithms can automatically model, extract, and identify features in complex datasets. The observation data of GNSS receivers is essentially a multidimensional dataset with time, space, and frequency dimensions. This multidimensional data is exactly what machine learning algorithms are good at handling. For example, the classic CNN network can extract features and classify image data. If we format the GNSS receiver data into a format similar to multi-channel image data, we can use the CNN network to identify multipath signals. Evgenii Munin et al. simulated different GNSS receiver configurations by constructing artificial signals and formatted the output two-band signals (I, Q) into two-dimensional images distributed in geographic space, and then used the CNN network to identify multipath signals. It can be found that CNN is significantly activated in the multipath signal area, thereby achieving multipath signal detection. [$^7$](#References)
 
 ![](./imgs/p6.png)
-Figure 6: Activation map of CNN for multipath detection in GNSS receivers.
+Figure 2: Activation map of CNN for multipath detection in GNSS receivers.
 
 The machine learning-based GPS multipath detection method proposed by Kim et al. uses four features (i.e., C/N0, time difference of C/N0, difference between pseudorange time difference and pseudorange rate, satellite elevation angle) and one feature (i.e., double-difference pseudorange residual of dual antennas). The four machine learning algorithms used in the study are GBDT, Random Forest, Decision Tree, and K-Nearest Neighbor (KNN).[$^3$](#References)
 
@@ -71,7 +74,7 @@ Machine learning algorithms can not only effectively identify multipath effects 
 <!-- ![](./imgs/p8.png) -->
 <img src="./imgs/p8.png" width="600" />
 
-Figure 7: LSTM-based GNSS measurement uncertainty prediction.
+Figure 3: LSTM-based GNSS measurement uncertainty prediction.
 
 ### 2.2 3D Model-based Methods(3DMA GNSS)
 
@@ -83,20 +86,20 @@ The reason why it is necessary to use the 3D digital model of the city to detect
 <!-- ![](./imgs/p9.png) -->
 <img src="./imgs/p9.png" width="400" />
 
-Figure 8: 3D Model for London City.
+Figure 4: 3D Model for London City.
 
 The Shadow matching method they used specifically represents the building boundary as azimuth-elevation pairs, which are then projected onto the local sky plot. Combined with the satellite positions calculated from ephemeris data, an index for ranking can be constructed.
 
 <!-- ![](./imgs/p10.png) -->
 <img src="./imgs/p10.png" width="400" />
 
-Figure 9: an example of a building boundary as azimuth-elevation pairs in a sky plot. 
+Figure 5: an example of a building boundary as azimuth-elevation pairs in a sky plot. 
 
 Through randomly selecting sampling points near the receiver (e.g., within 15m), combined with the city's digital model and ray tracing techniques, we can calculate the simulated pseudorange value of each sampling point. Combined with the real measured pseudorange, these simulated pseudoranges can be used to correct the real pseudorange observations (e.g., weighted average based on similarity) and detect outliers (e.g., multipath signals reflected two or more times).[$^5$](#References)
 
 <img src="./imgs/p4.png" width="400" />
 
-Figure 10: Multipath detection with 3D digital maps for robust multi-constellation GNSS/INS vehicle localization in urban areas.
+Figure 6: Multipath detection with 3D digital maps for robust multi-constellation GNSS/INS vehicle localization in urban areas.
 
 With the gradual maturity of technologies such as autonomous driving, the digital models of the surrounding environment can also be dynamically generated through vehicle-mounted radar. This dynamic 3D map can be fully combined with the vehicle-mounted GNSS receiver to achieve real-time detection and reduction of multipath effects, thereby improving the positioning accuracy of the vehicle-mounted GNSS in urban roads.[$^9$](#References)
 
@@ -109,7 +112,7 @@ Weisong Wen et al. use LiDAR to obtain real-time 3D point cloud data and combine
 <!-- ![](./imgs/p5.png) -->
 <img src="./imgs/p5.png" width="600" />
 
-Figure 11: Real-time exclusion of GNSS NLOS receptions caused by dynamic objects in heavy traffic urban scenarios using real-time 3D point cloud.
+Figure 7: Real-time exclusion of GNSS NLOS receptions caused by dynamic objects in heavy traffic urban scenarios using real-time 3D point cloud.
 
   1. First, cluster the 3D point cloud data based on Euclidean distance and identify double-decker buses through preset parameters.
   2. Centered on the vehicle-mounted GNSS receiver, project the satellites and double-decker buses onto the Skyplot for subsequent detection of blocked satellites.
@@ -151,24 +154,71 @@ For example, the classic choke ring antenna, which is designed to reduce ground 
 
 <img src="./imgs/p2.png" width="300" />
 
-Figure 12: A choke ring antenna (real photo).
+Figure 8: A choke ring antenna (real photo).
 
 Also, there are some small antenna designs, such as the Dual-Band GPS-RSW Antenna. The Dual-Band GPS-RSW Antenna is a patch antenna designed for dual-frequency GPS (L1 and L2) with reduced surface wave. It has a compact dual-layer concentric ring structure (inner and outer rings correspond to L1 and L2, respectively). This antenna performs well in the horizontal plane and back radiation, significantly reducing ground reflection and low-angle multipath interference, suitable for high-precision positioning applications.[$^2$](#References)
 
 <img src="./imgs/p3.png" width="300" />
 
-Figure 13: A dual-band reduced-surface-wave patch antenna (top view).
+Figure 9: A dual-band reduced-surface-wave patch antenna (top view).
 
 
 ## 3. Conclusion
 
 <div STYLE="page-break-after: always;"></div>
 
-## Appendix
+## 4. Appendix
+I will add some necessary content in this section.
+
+### 1. Convolution Neural Network (CNN)
+
+From an engineering perspective, a typical CNN network consists of three parts: convolutional layers, pooling layers, and fully connected layers. Convolutional layers are mainly used to extract features, pooling layers are mainly used to reduce dimensions, and fully connected layers are mainly used for classification. Most typically, assuming we have a $[64 \times 64 \times 3]$ input, after convolutional layers and pooling layers, we finally output a $[1 \times 1 \times n]$ output, where $n$ represents the number of possible categories. The structure of the CNN network is shown in the figure.
+
+![](./imgs/p11.png)
+
+Figure 10: An simple CNN architecture, comprised of just five layers
+
+Specifically, convolutional layers can be divided into one-dimensional convolution, two-dimensional convolution, and three-dimensional convolution according to dimensions. For one-dimensional convolution ([Conv1d](https://pytorch.org/docs/stable/generated/torch.nn.Conv1d.html#torch.nn.Conv1d)), we assume the input is $(C_{in},L)$, where $C_{in}$ represents the number of input channels and $L$ represents the length of the input. The output is $(C_{out},L_{out})$, where $C_{out}$ represents the number of output channels and $L_{out}$ represents the length of the output. The size of the convolution kernel is $(C_{out},C_{in},K)$, where $K$ represents the length of the convolution kernel. The formula for the convolution operation is as follows:
+
+$$
+C^{outj} = bias(C^{outj}) + \sum_{k=0}^{C_{in} - 1} Weight(C^{outj},k) \ast C^{inj} \tag{4.1}
+$$
+
+<!-- ![](./imgs/p12.png) -->
+<img src="./imgs/p12.png" width="50%" />
+
+Figure 11: An example of 2D convolution operation
+
+Where $C^{outj}$ represents the $j$-th output channel, $C^{inj}$ represents the $j$-th input channel, $Weight(C^{outj},k)$ represents the weight of the $j$-th channel and the $k$-th channel of the convolution kernel, and $\ast$ represents the cross-correlation operation. For the cross-correlation operation, we have:
+
+$$
+(f * g)[n] = \sum_{m=-\infty}^{\infty} f[m] g[n + m] \tag{4.2}
+$$
+
+Where $n$ is the index variable, representing the translation of the signal. In the convolution operation, we usually use the cross-correlation operation to represent the convolution operation. In mathematics, the cross-correlation operation is usually used in signal processing and statistics to represent the similarity between two signals or functions. The difference between convolution operation and cross-correlation operation is that the convolution operation will flip the convolution kernel. For two-dimensional convolution and three-dimensional convolution, we can similarly define the convolution operation.
+
+The pooling layer is mainly used for dimensionality reduction, and common pooling operations include max pooling and average pooling. Typically, we take one-dimensional max pooling ([MaxPool1d](https://pytorch.org/docs/stable/generated/torch.nn.MaxPool1d.html#torch.nn.MaxPool1d)) as an example. Assuming the input is $(C_{in},L)$, the output is $(C_{out},L_{out})$, and the size of the pooling kernel is $K$, the formula for the pooling operation is as follows:
+
+$$
+P^{outj} = \max_{k=0}^{K-1} P^{inj+k} \tag{4.3}
+$$
+
+The pooling operation is to take a fixed-size window on each channel of the input, and then take the maximum or average value in the window as the output.
+
+<!-- ![](./imgs/p13.png) -->
+<img src="./imgs/p13.png" width="50%" />
+
+Figure 12: An example of 2D max pooling operation
+
+### 2. Long Short-Term Memory (LSTM)
+
+### 3. Ray Tracing
 主要详细介绍
   - CNN、LSTM 等机器学习算法
   - 光线追踪技术
   - 及GPU加速计算在 GNSS 领域中的应用
+
+<div STYLE="page-break-after: always;"></div>
 
 ## References
 1. GPS: Theory, Algorithms and Applications, by Guochang Xu. Springer, 2007. doi: https://doi.org/10.1007/978-3-662-50367-6
@@ -194,3 +244,5 @@ Figure 13: A dual-band reduced-surface-wave patch antenna (top view).
 11. G. Zhang, P. Xu, H. Xu and L. -T. Hsu, "Prediction on the Urban GNSS Measurement Uncertainty Based on Deep Learning Networks With Long Short-Term Memory," in IEEE Sensors Journal, vol. 21, no. 18, pp. 20563-20577, 15 Sept.15, 2021, doi: 10.1109/JSEN.2021.3098006.
 
 12. Wang, L., Groves, P. D., & Ziebart, M. K. (2015). Smartphone Shadow Matching for Better Cross-street GNSS Positioning in Urban Environments. Journal of Navigation, 68(3), 411-433. doi: 10.1017/S0373463314000836
+
+13. Vincent Dumoulin, Francesco Visin. "A guide to convolution arithmetic for deep learning." arXiv preprint arXiv:1603.07285 (2016). doi: https://doi.org/10.48550/arXiv.1603.07285

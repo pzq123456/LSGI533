@@ -13,6 +13,10 @@
     - [2.2 3D Model-based Methods(3DMA GNSS)](#22-3d-model-based-methods3dma-gnss)
     - [2.3 Multi-Device Fusion Method](#23-multi-device-fusion-method)
     - [2.4 Receiver Design](#24-receiver-design)
+  - [4. Appendix](#4-appendix)
+    - [1. Convolution Neural Network (CNN)](#1-convolution-neural-network-cnn)
+    - [2. Long Short-Term Memory (LSTM)](#2-long-short-term-memory-lstm)
+    - [3. Ray Tracing](#3-ray-tracing)
   - [References](#references)
 
 
@@ -170,6 +174,52 @@ Figure 12: A choke ring antenna (real photo).
 Figure 13: A dual-band reduced-surface-wave patch antenna (top view).
 
 <div STYLE="page-break-after: always;"></div>
+
+
+## 4. Appendix
+I will add some necessary content in this section.
+
+### 1. Convolution Neural Network (CNN)
+从工程角度讲，一个典型的 CNN 网络主要包括三个部分，即卷积层、池化层和全连接层。卷积层主要用于提取特征，池化层主要用于降维，全连接层主要用于分类。最典型的，假设我们有一个$[64 \times 64 \times 3]$的输入，经过卷积层和池化层后，最终输出一个$[1 \times 1 \times n]$的输出，其中$n$表示可能的类别数。CNN 网络的结构如图所示。
+
+![](./imgs/p11.png)
+Figure 10: An simple CNN architecture, comprised of just five layers
+
+具体来讲，卷积层又可以按照维度分为一维卷积、二维卷积和三维卷积。对于一维卷积([Conv1d](https://pytorch.org/docs/stable/generated/torch.nn.Conv1d.html#torch.nn.Conv1d))，我们假设输入为$(C_{in},L)$，其中$C_{in}$表示输入的通道数，$L$表示输入的长度。输出为$(C_{out},L_{out})$，其中$C_{out}$表示输出的通道数，$L_{out}$表示输出的长度。卷积核的大小为$(C_{out},C_{in},K)$，其中$K$表示卷积核的长度。卷积操作的公式如下：
+
+$$
+C^{outj} = bias(C^{outj}) + \sum_{k=0}^{C_{in} - 1} Weight(C^{outj},k) \ast C^{inj} \tag{4.1}
+$$
+
+![](./imgs/p12.png)
+Figure 11: An example of 2D convolution operation
+
+其中，$C^{outj}$表示输出的第$j$个通道，$C^{inj}$表示输入的第$j$个通道，$Weight(C^{outj},k)$表示卷积核的第$j$个通道和第$k$个通道的权重，$\ast$表示互相关操作。对于互相关操作，我们有：
+
+$$
+(f * g)[n] = \sum_{m=-\infty}^{\infty} f[m] g[n + m] \tag{4.2}
+$$
+
+其中，$n$是索引变量，表示信号的平移。在卷积操作中，我们通常使用互相关操作来表示卷积操作。在数学中，互相关操作（cross-correlation）通常用于信号处理和统计学中，表示两个信号或函数之间的相似度。卷积操作和互相关操作的区别在于卷积操作会翻转卷积核。对于二维卷积和三维卷积，我们可以类似地定义卷积操作。
+
+池化层主要用于降维，常见的池化操作有最大池化和平均池化。典型的，我们以最大一维池化([MaxPool1d](https://pytorch.org/docs/stable/generated/torch.nn.MaxPool1d.html#torch.nn.MaxPool1d))为例，假设输入为$(C_{in},L)$，输出为$(C_{out},L_{out})$，池化核的大小为$K$，池化操作的公式如下：
+
+$$
+P^{outj} = \max_{k=0}^{K-1} P^{inj+k} \tag{4.3}
+$$
+
+池化操作也就是在输入的每个通道上取一个固定大小的窗口，然后取窗口中的最大值或平均值作为输出。
+
+![](./imgs/p13.png)
+Figure 12: An example of 2D max pooling operation
+
+### 2. Long Short-Term Memory (LSTM)
+
+### 3. Ray Tracing
+主要详细介绍
+  - CNN、LSTM 等机器学习算法
+  - 光线追踪技术
+  - 及GPU加速计算在 GNSS 领域中的应用
 
 ## References
 1. GPS: Theory, Algorithms and Applications, by Guochang Xu. Springer, 2007. doi: https://doi.org/10.1007/978-3-662-50367-6
