@@ -15,6 +15,7 @@
     - [2.2 3D Model-based Methods(3DMA GNSS)](#22-3d-model-based-methods3dma-gnss)
     - [2.3 Multi-Device Fusion Method](#23-multi-device-fusion-method)
     - [2.4 Receiver Design](#24-receiver-design)
+  - [C](#c)
   - [4. Appendix](#4-appendix)
     - [1. Convolution Neural Network (CNN)](#1-convolution-neural-network-cnn)
     - [2. Long Short-Term Memory (LSTM)](#2-long-short-term-memory-lstm)
@@ -179,6 +180,13 @@ Figure 13: A dual-band reduced-surface-wave patch antenna (top view).
 
 <div STYLE="page-break-after: always;"></div>
 
+## Conclusion
+
+在本报告中，我重点探讨了一些计算机技术在GNSS领域的一些应用，包括依据三维模型检测及补偿多路径效应、使用新兴的神经网络监测多路径效应等。这些方法大都是一种计算密集型方法，很难照搬到传统接收机上直接运行，一般也是在电脑上用作后处理算法。但是，随着计算机技术的发展，现在的智能手机已经能够流畅的运行复杂的三维视频游戏及端载大模型（iPhone等），现在移动设备的性能已经完全能够支撑许多计算密集型算法。更不必说，现在相当多的汽车都搭载来智能驾驶芯片（例如骁龙8155及英伟达的解决方案），丰富的算力资源也为这些算法的实时运行提供了可能。
+
+在智能驾驶领域，端到端智能驾驶是一种新的潮流。例如特斯拉汽车提供的智能驾驶服务，将车身传感器采集到的多源数据（包括GNSS、IMU、摄像头等）直接输入到神经网络中，通过神经网络直接输出车辆的控制指令。这种方法的优势在于，不需要人工设计特征，神经网络可以自动提取特征，同时神经网络也可以自动调整参数以适应不同的场景。实践证明，这种方法是可行的，也就说明这种“多源融合”的计算密集型方向也是适用于GNSS领域的。
+
+GNSS 系统本质上依赖对定位操作中各种环节的准确监测及建模，例如对电离层、对流层、地面环境等的建模。一个可以完善的近地空间监测及预报网络可以极大地提高GNSS定位的速度及精度。而这些监测及预报网络的建立，也需要大量的数据及密集的计算。
 
 ## 4. Appendix
 I will add some necessary content in this section.
