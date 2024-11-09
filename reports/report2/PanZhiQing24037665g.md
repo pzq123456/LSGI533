@@ -170,6 +170,11 @@ Figure 9: A dual-band reduced-surface-wave patch antenna (top view).
 
 ## 3. Conclusion
 
+In this report, I have focused on some applications of computer technology in the GNSS field, including detecting and compensating multipath effects based on 3D models, using emerging neural networks to detect multipath effects, etc. These methods are mostly computationally intensive methods that are difficult to run directly on traditional receivers and are generally used as post-processing algorithms on computers. However, with the development of computer technology, today's smartphones can run complex 3D video games and large models smoothly (iPhone, etc.), and the performance of mobile devices is now fully capable of supporting many computationally intensive algorithms. Not to mention that many cars now come equipped with intelligent driving chips (such as Snapdragon 8155 and NVIDIA solutions), and the rich computing resources also provide the possibility for real-time operation of these algorithms.
+
+In the field of intelligent driving, end-to-end intelligent driving is a new trend. For example, the intelligent driving service provided by Tesla vehicles inputs multi-source data collected by vehicle sensors (including GNSS, IMU, cameras, etc.) directly into a neural network and outputs vehicle control commands directly through the neural network. The advantage of this method is that it does not require manual feature design, the neural network can automatically extract features, and the neural network can also automatically adjust parameters to adapt to different scenarios. Practice has proven that this method is feasible, which means that this computationally intensive direction of "multi-source fusion" is also applicable to the GNSS field.
+
+The GNSS system essentially relies on accurate monitoring and modeling of various links in the positioning operation, such as modeling of the ionosphere, troposphere, ground environment, etc. A well-established near-space monitoring and forecasting network can greatly improve the speed and accuracy of GNSS positioning. The establishment of these monitoring and forecasting networks also requires a large amount of data and intensive computing.
 <div STYLE="page-break-after: always;"></div>
 
 ## 4. Appendix
