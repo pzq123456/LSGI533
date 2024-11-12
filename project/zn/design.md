@@ -21,47 +21,33 @@ $$
 Where: $\Delta\theta$ is the angular deviation, $\delta$ is the deviation distance, $r$ is the distance from the target.
 
 ![](../imgs/p4.png)
+
 **我们需要在抵达太阳系附近时将定位精度控制在约 76.9 角秒以内，或者约 $3.73 \times 10^{-4}$ 弧度，以保证进入太阳系的行星分布范围内。**
 
-注意，这样的定位精度并非总是需要，在航程的初期阶段只需要保持一个大致的方向即可，但在接近目标时，定位精度就变得至关重要。因此，我们需要一个系统，能够在整个航程中提供不同精度的定位服务，以满足不同阶段的需求。
-
-类似于瓦片地图，我们用于表示目标位置的球体可以被分割成许多小块，每个小块对应一个定位服务区域。
+注意，这样的定位精度并非总是需要，在航程的初期阶段只需要保持一个大致的方向即可，但在接近目标时，定位精度就变得至关重要。因此，我们需要一个系统，能够在整个航程中提供不同精度的定位服务，以满足不同阶段的需求。类似于瓦片地图，随着航程的推进，我们需要逐渐细化定位精度，以确保探测器能够准确进入目标星系。
 
 ![](../imgs/p5.png)
 
-### 2. 考虑加速和减速操作的影响
+## 1. 系统框架
 
-假设我们计划使用一种能让探测器在合理范围内先加速、后减速的推进方式，例如，采用连续推力的技术（如离子推进系统，尽管目前还无法实现接近光速的推力）。理想情况下，加速和减速能让我们达到较高速度后再减速，进入比邻星附近，但仍有几个关键因素影响：
+The X-ray pulsar-based spacecraft positioning system mainly consists of an X-ray
+detector, spacecraft-borne atomic clock, spacecraft-borne computational device, nav-
+igation model algorithms database and pulsar model database. The workflow of the
+whole system is given in Fig.
 
-- **加速阶段**：若设想从地球出发，我们需要极高效的推进系统，逐渐将探测器加速到更高速度。然而，受限于目前的技术，加速到10%光速（理论情况下）就已经是极限。
-- **减速阶段**：如果在比邻星附近减速，我们还需考虑额外燃料和复杂的制动方式，这在探测器出发前必须解决。
+### 1.1 时空框架
 
-### 3. 假设理想情况下达到10%光速
+重力场与相对论效应
+- gravitational environment 
+- correcting time delay caused by the geometrical and general relativistic effect.
 
-假设未来能开发出一种先进推进系统，在加速和减速的情况下让探测器达至**10%光速**（约30,000 km/s），并能稳定地飞向比邻星。我们可以简化估算：
+The X-ray pulsar-based navigation method works by comparing the pulse TOA at the spacecraft and that at the SSB. As the solar system is a Riemannian space, the relationship between the measured and the predicted TOA has to consider the general relativistic effect.
 
-- **加速期**：假设加速和减速分别各占旅程的20%，则中间60%可保持10%光速飞行。
-- **旅程时间**：
-  - **总行程**：4.24光年。
-  - **中间巡航阶段**：3.84光年，用10%光速飞行，约需**38.4年**。
-  - **加速和减速阶段**：约占20%旅程，约为0.4光年；以逐渐加速（或减速）到10%光速，理论上加速与巡航时间相近，约需**38年**。
+### X-Ray Pulsar-Based Spacecraft Time Keeping
 
-因此，总时间约为**38年加上38.4年**，即**约76年**。
+### Traditional Celestial Measurement Model
+The so-called stellar angle measurement refers to the angle between the direction vector of a reference planet and of a star with respect to the satellite.
 
-### 总结
-
-在极理想条件下，假设探测器能达到10%光速，加速和减速阶段都得到有效控制，抵达比邻星可能需要**约76年**。
-> - 若考虑在星际航行中使用本系统，则执行一次定位及授时所需的观测时间其实可以很长，尤其是对于早期低速航行器，我们可以使用定位操作时间所占总航程的预计时间来衡量这一点。
->  - 例如，以目前能够达到的最高速度（），想要前往比邻星（距离地球约4.22光年）
-   - 引力波数据：将引力波观测数据与脉冲星信号结合，可以更准确地校正时空扭曲对信号传播的影响。
-   - 中微子观测：中微子具有穿透性强、不受电磁干扰等特点，可以作为一种补充的定位手段。
-   - 其他天文观测数据：如伽马射线暴、超新星爆发等，都可以为定位系统提供额外的信息。
-   - 惯性导航系统：惯性导航系统可以提供短时间内的精确定位，与脉冲星定位系统结合，可以提高系统的鲁棒性。
-   - 量子时钟：基于量子现象的原子钟具有更高的稳定性和精度，可以进一步提升定位系统的性能。
-   - 量子通信：量子通信具有绝对安全性和高带宽的特点，可以实现更可靠的星际通信。
-
-## 1. 系统设计目标及适用范围
-
-## 2. 系统框架
-
+## 2. 脉冲星的特性
+![](../imgs/p6.png)
 ## 3. 特殊的应用环境（宇宙尺度）
