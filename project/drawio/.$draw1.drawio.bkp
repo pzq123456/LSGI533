@@ -1,9 +1,114 @@
-<mxfile host="Electron" modified="2024-11-09T13:52:18.514Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.2.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="fBh3naCm1Uwdi8vhw-GN" version="24.2.5" type="device">
+<mxfile host="Electron" modified="2024-11-09T14:22:48.976Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.2.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="2ULjFlLv5E91qC51NR5q" version="24.2.5" type="device">
   <diagram name="第 1 页" id="7DxcFVDrj47M20yJ348c">
-    <mxGraphModel dx="1434" dy="836" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="4412" dy="3259" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="RpdtVfm5vgKX0qxy2V18-1" target="RpdtVfm5vgKX0qxy2V18-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="RpdtVfm5vgKX0qxy2V18-1" target="RpdtVfm5vgKX0qxy2V18-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="RpdtVfm5vgKX0qxy2V18-1" target="RpdtVfm5vgKX0qxy2V18-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-1" value="脉冲星导航系统关键模块" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="200" y="40" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-3" value="信号检测模块" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="-80" y="190" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-4" value="时间同步模块" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="190" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-5" value="位置计算模块" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="190" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="RpdtVfm5vgKX0qxy2V18-6" target="RpdtVfm5vgKX0qxy2V18-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="RpdtVfm5vgKX0qxy2V18-6" target="RpdtVfm5vgKX0qxy2V18-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="RpdtVfm5vgKX0qxy2V18-6" target="RpdtVfm5vgKX0qxy2V18-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-6" value="宇宙环境检测模块" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="200" y="330" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-7" value="宇宙大尺度观测系统（引力波等）" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="-80" y="470" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-8" value="中等尺度（恒星系内）观测系统" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="470" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-9" value="可观测暨大尺度宇宙事件星体数据库" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="-80" y="590" width="110" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-10" value="跨星系通讯模块" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="50" y="590" width="110" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-11" value="基于大范围可观测事件的宇宙共识通讯机制" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="870" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-12" value="小尺度（行星）观测及导航系统" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="470" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="RpdtVfm5vgKX0qxy2V18-13" target="RpdtVfm5vgKX0qxy2V18-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-39" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="RpdtVfm5vgKX0qxy2V18-13" target="RpdtVfm5vgKX0qxy2V18-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="RpdtVfm5vgKX0qxy2V18-13" target="RpdtVfm5vgKX0qxy2V18-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-13" value="基础宇宙信息交换服务" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="200" y="750" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-14" value="宇宙事件触发及广播系统" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;strokeColor=default;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="870" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-15" value="系内星体活动数据库" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="200" y="590" width="110" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-16" value="近实时信号交换模块" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="330" y="590" width="110" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-17" value="行星活动数据库" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="480" y="590" width="110" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-18" value="实时信号交换模块" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="610" y="590" width="110" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-20" value="宇宙事件触检测与解释模块" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="-80" y="870" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-22" value="脉冲星信号调制系统" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="480" y="990" width="110" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-23" value="引力波调制系统" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="610" y="990" width="110" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-24" value="" style="endArrow=classic;html=1;rounded=0;strokeWidth=11;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-120" as="sourcePoint" />
+            <mxPoint x="-120" y="1210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-25" value="" style="endArrow=classic;html=1;rounded=0;strokeWidth=11;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-120" as="sourcePoint" />
+            <mxPoint x="950" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-28" value="此方向覆盖范围增加" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;fillColor=default;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="700" y="-130" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="RpdtVfm5vgKX0qxy2V18-29" value="此方向技术难度增加" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-400" y="1080" width="240" height="100" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
