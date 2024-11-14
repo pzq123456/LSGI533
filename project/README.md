@@ -24,8 +24,7 @@
 - Analysis on performances of the designed system
 - Discussion and conclusion
   - Comparison with similar systems
-
-## 废弃的选题
-- 量子导航 What is quantum navigation – and could it replace GPS?
-  - https://www.weforum.org/agenda/2024/07/what-is-quantum-navigation-earth-observation/
-  - https://thequantuminsider.com/2024/08/09/boeings-quantum-based-navigation-system-takes-flight-in-historic-test/
+  
+## 
+- http://ipta.phys.wvu.edu/files/student-week-2018/pulsar_timing_lecture.pdf
+- https://www.jb.man.ac.uk/research/pulsar/Resources/tempo2_manual.pdf

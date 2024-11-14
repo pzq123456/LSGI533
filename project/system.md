@@ -243,6 +243,7 @@
 - https://www.kaggle.com/datasets/colearninglounge/predicting-pulsar-starintermediate/discussion?sort=published
 - http://zmtt.bao.ac.cn/psr-fast/
 - https://fermi.gsfc.nasa.gov/ssc/data/analysis/documentation/Cicerone/Cicerone_Pulsars/pulsar_ephemerides_databases.html
+- [FAST pulsar database: I. Polarization profiles of 682 pulsars](http://zmtt.bao.ac.cn/psr-fast/whx23.pdf)
 
 ## 因果视界和粒子视界
 https://physics.stackexchange.com/questions/388465/difference-between-causal-horizon-and-particle-horizon
