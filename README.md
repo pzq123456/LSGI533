@@ -57,3 +57,9 @@
 ## Resources
 - https://ap01.alma.exlibrisgroup.com/leganto/readinglist/lists/60854917200003411
 - https://www.movable-type.co.uk/scripts/geodesy-library.html
+
+
+考试：
+不带计算器 
+6 选 5 题做
+闭卷考试
