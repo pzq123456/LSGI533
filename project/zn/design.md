@@ -111,6 +111,7 @@ The so-called stellar angle measurement refers to the angle between the directio
 
 ## 2. 脉冲星的特性
 ![](../imgs/p6.png)
+
 ## 3. 特殊的应用环境（宇宙尺度）
 
 

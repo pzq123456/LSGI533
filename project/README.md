@@ -17,6 +17,8 @@
 
 - Then all signal be normalizing to solar system barycenter coordinates (SSBC).
 - 脉冲星的优势 有些甚至比原子钟还要准 The data show some pulsar stability than atomic clock in the timescale greater than one year (Matsakis, Taylor and Eubanks, 1997).
+
+
 ## Report (10-20 pages)
 - Purposes of the application
 - Navigation Requirements
