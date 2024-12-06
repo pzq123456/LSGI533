@@ -85,10 +85,56 @@ Now, for space navigation based on X-ray pulsars, only one day of observation da
 
 ## 2. System Design
 ### 2.1. System Architecture
+我们的系统由三个部分组成：VLBI观测网络、脉冲星数据库及XNAV系统。VLBI观测网络负责搜索及观测脉冲星，脉冲星数据库负责处理观测值建立并存储脉冲星信号模型，XNAV系统安装在需要导航的目标航天器上负责实时定位。对于VLBI观测网络而言，既可以是地球上已有的观测网络，也可以是未来在宇宙空间中部署的观测网络。若人类能够发射大型宇宙飞船（或探测器），则在宇宙空间中布设超长基线的观测网络将成为现实。假设我们有多艘飞船分别航向不同的方向，那么我们就可以通过这些飞船构建一个基线不断增长的VLBI观测网络，从而不断提高观测精度。
 
-Our system consists of three parts: VLBI observation network, pulsar database, and XNAV system. The VLBI observation network is responsible for observing the positions of celestial bodies, the pulsar database is responsible for storing the signal models of pulsars, and the XNAV system is responsible for real-time positioning of spacecraft. Data exchange between the VLBI observation network and the pulsar database is carried out through a data transmission system, and data exchange between the pulsar database and the XNAV system is carried out through a data transmission system.
+Our system consists of three parts: VLBI observation network, pulsar database, and XNAV system. The VLBI observation network is responsible for searching and observing pulsars, the pulsar database is responsible for processing observation values to establish and store pulsar signal models, and the XNAV system is installed on the target spacecraft to provide real-time positioning. For the VLBI observation network, it can be an existing observation network on Earth or a future observation network deployed in space. If humans can launch large spacecraft (or detectors), it will be possible to deploy an observation network with ultra-long baselines in space. Assuming that we have multiple spacecraft heading in different directions, we can build a VLBI observation network with continuously increasing baselines through these spacecraft, thereby continuously improving the observation accuracy.
 
-### 2.2. Pulse Star Database
+![Figure 4: System Architecture](./imgs/6.png)
+
+
+### 2.2. Build Pulse Star Database
+
+The prerequisite for achieving low-cost pulsar navigation[@Ely2022] is to establish a complete pulsar database (especially X-ray pulsars). We need to search for those "high-quality" pulsar sources (pulsars with stable periods, pulse signals received, and good Geometry distribution), then observe them for a long time, establish pulsar signal models (clock models), and measure their positions relative to the solar system barycenter (SSB) (including azimuth and approximate distance).
+
+The establishment of the pulsar signal model is usually to observe and record the arrival time of the pulse signal (TOA). It should be noted that the pulsar clock model is also reduced to the solar system barycenter. We have the following formula to complete this conversion:
+
+$$
+t = T + \Delta t_1 + \Delta t_2 + \Delta t_3 + \sum_{i=1}^{n} V_i \tag*{(7)}
+$$
+
+
+Where $t$ is the calculated pulse arrival time observed at the solar system barycenter, $T$ is the pulse arrival time observed at the ground station, $\Delta t_1, \Delta t_2, \Delta t_3$ are all clock correction numbers. $V_i$ represents the remaining small correction terms, such as dispersion caused by interstellar medium, Shapiro delay, etc.
+
+
+Based on the above observation values, the signal model of the pulsar (clock model) can be established. However, to solve the various parameters of the model, a very long observation (2-3 years) is required to collect enough observation records. Considering the instability of some pulsar signals, it is also necessary to update them from time to time to ensure the timeliness of the model. The following formula represents the pulsar signal model:
+
+$$
+\Phi(t) = \Phi(t_0) + f(t-t_0) + \sum \frac{f^{(m)}(t-t_0)^{m+1}}{m+1} \tag*{(8)}
+$$
+
+Where $\Phi(t)$ is the pulsar signal model, $f(t)$ is the frequency of the pulsar signal, $t_0$ is the reference time, and $m$ is the model order.
+
+Considering that each pulsar signal model is unique, we can identify different pulsars based on the signal model of the pulsar. In addition, considering that the pulsar navigation system is ultimately aimed at human users, we can generate corresponding pulse contour maps based on the signal model of the pulsar for users to quickly identify the observed pulsars.
+
+### 2.3. XNAV System
+The XNAV system is a navigation system based on pulsar signals[@dong2011pulsarnavigationsolar], the core of which is a small X-ray telescope used to observe pulsar signals. The workflow of the XNAV system is as follows:
+
+![Figure 5: Workflow of XNAV System](./imgs/5.png)
+
+Since the pulsar signal is extremely weak, the spacecraft usually relies on atomic clocks to record the arrival time of photons (TOAs) and cannot record continuous pulse signals. Therefore, it is necessary to process the photon TOAs first to estimate the pulse arrival time (Pulse TOA). There are two methods to estimate the pulse arrival time: epoch folding method and direct use of photon TOAs method. The former estimates the pulse TOA by calculating the initial phase and period, and the latter obtains the result by maximizing the log-likelihood function. In this process, it is necessary to further refer to the signal model in the pulsar database.
+
+The basic principle of X-ray pulsar navigation is to determine the position of the spacecraft by comparing the arrival time (TOA) of the pulsar signal received by the spacecraft with the predicted arrival time of the same signal received by the solar system barycenter (SSB). By measuring the difference between the measured and predicted pulse arrival times, the distance of the spacecraft relative to the SSB can be obtained. When observing three or more pulsars, the spacecraft can be geometrically positioned using a nonlinear least squares algorithm. The core mathematical model is as follows:
+
+$$
+\Phi(t_i) = \Phi(t_{TOA}) + f(t - t_{TOA}) \tag*{(9)}
+$$
+
+It can be found that the observation value here is the phase of the pulsar signal received locally. By comparing this phase with the phase predicted by the model at the solar system barycenter, the distance of the spacecraft relative to the solar system barycenter can be obtained. At the same time, observing multiple pulsar signals, multiple observation equations can be obtained, so that the position of the spacecraft can be solved by a nonlinear least squares method. Although the period of the pulsar signal will introduce integer ambiguity, this effect can be ignored when the spacecraft has an initial navigation solution with an accuracy better than 300 kilometers. In each calculation cycle, the system needs to continuously update its own position vector in addition to observing the pulsar signal. By continuously updating its position vector with the observed pulsar signal, the error accumulation of the inertial navigation system (INS) can be effectively controlled[@WANG_2023], thereby achieving long-term high-precision navigation.
+
+![Figure 6: Pulse Star Navigation Principle](./imgs/4.png)
+
+A spacecraft can observe three or more pulsars at the same time, so multiple observation equations can be obtained, and its position can be determined. Multiple spacecraft can observe the same pulsar at the same time to determine the relative position relationship of the constellation they form. By comparing the arrival time (TOA) of the pulsar signal received by these spacecraft, the relative projection distance in the direction of the pulsar can be calculated, and the observation vector of the constellation can be constructed. This method can effectively improve the overall positioning accuracy of the constellation and provide key data for collaborative navigation. We can also consider integrating multiple data sources to improve positioning accuracy, such as ground measurement data, constellation observation data, star observation data, etc.
+
 
 ## References
 <!-- cd project/paper -->
